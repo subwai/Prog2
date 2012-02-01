@@ -23,7 +23,7 @@ implements Queue<E> {
 	 * @return the number of elements in this queue
 	 */
 	public int size() {		
-		return 0;
+		return size;
 	}
 
 	/**	
@@ -34,6 +34,17 @@ implements Queue<E> {
 	 * 			to this queue, else false
 	 */
 	public boolean offer(E x) {
+		if(x == null){
+			throw new NullPointerException();
+		}
+		QueueNode<E> node = new QueueNode<E>(x);
+		if(last == null){
+			last = node;
+		}
+		node.next = last.next;
+		last.next = node;
+		last = node;
+		size++;
 		return true;
 	}
 
@@ -54,7 +65,10 @@ implements Queue<E> {
 	 * 			if this queue is empty
 	 */
 	public E peek() {
-		return null;
+		if(last == null){
+			return null;
+		}
+		return last.next.element;
 	}
 
 
