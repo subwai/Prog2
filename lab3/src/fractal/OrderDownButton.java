@@ -2,19 +2,19 @@ package fractal;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class OrderUpButton extends JButton implements ActionListener {
+public class OrderDownButton extends JButton implements ActionListener {
 	private FractalView view;
 
-	public OrderUpButton(FractalView view) {
-		super(">");
+	public OrderDownButton(FractalView view) {
+		super("<");
 		this.view = view;
 		addActionListener(this);
-		this.setToolTipText("Ökar fraktalens ordning.");
+		this.setToolTipText("Minskar fraktalens ordning.");
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		Fractal fractal = view.getFractal();
-		fractal.setOrder(fractal.getOrder() + 1);
+		fractal.setOrder(fractal.getOrder() - 1);
 		view.updateDrawing();
 	}
 

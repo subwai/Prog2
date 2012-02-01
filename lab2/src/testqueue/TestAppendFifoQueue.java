@@ -39,6 +39,7 @@ public class TestAppendFifoQueue {
 		q2.offer(2);
 		q1.append(q2);
 		assertEquals("The concatinated list did not get the correct size", q1.size(), 2);
+		assertEquals("The concatinated list did not get the correct size", q2.size(), 0);
 		assertEquals("The first element was at the wrong place", (int)q1.poll(), 1);
 		assertEquals("The second element was at the wrong place", (int)q1.poll(), 2);
 	}
@@ -49,6 +50,7 @@ public class TestAppendFifoQueue {
 		q1.offer(2);
 		q1.append(q2);
 		assertEquals("The concatinated list did not get the correct size", q1.size(), 2);
+		assertEquals("The concatinated list did not get the correct size", q2.size(), 0);
 		assertEquals("The first element was at the wrong place", (int)q1.poll(), 1);
 		assertEquals("The second element was at the wrong place", (int)q1.poll(), 2);
 	}
@@ -61,9 +63,21 @@ public class TestAppendFifoQueue {
 		q2.offer(4);
 		q1.append(q2);
 		assertEquals("The concatinated list did not get the correct size", q1.size(), 4);
+		assertEquals("The concatinated list did not get the correct size", q2.size(), 0);
 		assertEquals("The first element was at the wrong place", (int)q1.poll(), 1);
 		assertEquals("The second element was at the wrong place", (int)q1.poll(), 2);
 		assertEquals("The third element was at the wrong place", (int)q1.poll(), 3);
 		assertEquals("The forth element was at the wrong place", (int)q1.poll(), 4);
+	}
+	
+	@Test
+	public void testOneInEach() {
+		q1.offer(1);
+		q2.offer(2);
+		q1.append(q2);
+		assertEquals("The concatinated list did not get the correct size", q1.size(), 2);
+		assertEquals("The concatinated list did not get the correct size", q2.size(), 0);
+		assertEquals("The first element was at the wrong place", (int)q1.poll(), 1);
+		assertEquals("The second element was at the wrong place", (int)q1.poll(), 2);
 	}
 }
