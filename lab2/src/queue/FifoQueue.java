@@ -99,7 +99,7 @@ implements Queue<E> {
 			last = q.last;
 		}else{
 			QueueNode<E> oldLast = last,
-			thisFirst = last.next,
+					thisFirst = last.next,
 					qFirst = q.last.next;
 			
 			//this.last = q.last
