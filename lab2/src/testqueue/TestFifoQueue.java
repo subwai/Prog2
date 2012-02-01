@@ -126,5 +126,42 @@ public class TestFifoQueue {
 		assertTrue("Wrong size after poll", myIntQueue.size() == 0);
 		assertTrue("Queue not empty after poll", myIntQueue.isEmpty());
 	}
-
+	
+	@Test
+	public final void testIteratorEmpty() {
+		Iterator<Integer> itr = myIntQueue.iterator();
+		assertFalse("Empty list has next", itr.hasNext());
+		try {
+			itr.next();
+			fail("Should throw NoSuchElementException");
+		} catch(NoSuchElementException e) { }
+	}
+	
+	@Test
+	public final void testIteratorSingleElement() {
+		myIntQueue.offer(1);
+		Iterator<Integer> itr = myIntQueue.iterator();
+		assertTrue("Does not have next in start", itr.hasNext());
+		assertEquals("First value is not correct", (int)itr.next(), 1);
+		assertFalse("Still has next after completed iteration", itr.hasNext());
+		try {
+			itr.next();
+			fail("Should throw NoSuchElementException");
+		} catch(NoSuchElementException e) { }
+	}
+	
+	@Test
+	public final void testIteratorMultipleElements() {
+		myIntQueue.offer(1);
+		myIntQueue.offer(2);
+		myIntQueue.offer(3);
+		Iterator<Integer> itr = myIntQueue.iterator();
+		assertTrue("Does not have next in start", itr.hasNext());
+		assertEquals("First value is not correct", (int)itr.next(), 1);
+		assertTrue("Does not have next element second iteration", itr.hasNext());
+		assertEquals("Second value is not correct", (int)itr.next(), 2);
+		assertTrue("Does not have next element third iteration", itr.hasNext());
+		assertEquals("Second value is not correct", (int)itr.next(), 3);
+		assertFalse("Should be empty", itr.hasNext());
+	}
 }

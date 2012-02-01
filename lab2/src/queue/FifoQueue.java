@@ -15,7 +15,7 @@ implements Queue<E> {
 	 * @return an iterator over the elements in this queue
 	 */	
 	public Iterator<E> iterator() {
-		return null;
+		return new QueueIterator();
 	}
 
 	/**	
@@ -38,7 +38,7 @@ implements Queue<E> {
 			throw new NullPointerException();
 		}
 		QueueNode<E> node = new QueueNode<E>(x);
-		if(last == null){
+		if(isEmpty()){
 			last = node;
 		}
 		node.next = last.next;
@@ -55,7 +55,13 @@ implements Queue<E> {
 	 * @return 	the head of this queue, or null if the queue is empty 
 	 */
 	public E poll() {
-		return null;
+		if (isEmpty()) {
+			return null;
+		}
+		E e = last.next.element;
+		last.next = size == 1 ? null : last.next.next;
+		size--;
+		return e;
 	}
 
 	/**	
@@ -65,7 +71,7 @@ implements Queue<E> {
 	 * 			if this queue is empty
 	 */
 	public E peek() {
-		if(last == null){
+		if(isEmpty()){
 			return null;
 		}
 		return last.next.element;
@@ -80,7 +86,38 @@ implements Queue<E> {
 			element = x;
 			next = null;
 		}
-
 	}
-
+	
+	public void append(FifoQueue<E> q) {
+		
+	}
+	
+	private class QueueIterator implements Iterator<E> {
+		private QueueNode<E> pos;
+		
+		/* Konstruktor */
+		private QueueIterator() {
+			//pos = null;
+			if(!isEmpty()){
+				pos = last.next;
+			}
+		}
+		
+		public boolean hasNext() {
+			return  pos != null;
+		}
+		
+		public E next() {
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			E e = pos.element;
+			pos = (last == pos) ? null : pos.next;
+			return e;
+		}
+		
+		public void remove() {
+			throw new UnsupportedOperationException();
+		}
+	}
 }
