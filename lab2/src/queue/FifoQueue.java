@@ -89,7 +89,30 @@ implements Queue<E> {
 	}
 	
 	public void append(FifoQueue<E> q) {
-		
+		if(q.equals(this)){
+			throw new UnsupportedOperationException();
+		}
+		if(q.isEmpty()){
+			return; //do nothing
+		}
+		if(this.isEmpty()){
+			last = q.last;
+		}else{
+			QueueNode<E> oldLast = last,
+			thisFirst = last.next,
+					qFirst = q.last.next;
+			
+			//this.last = q.last
+			last = q.last;
+			
+			//new last set first
+			last.next = thisFirst;
+			
+			oldLast.next = qFirst;
+		}
+		size += q.size;
+		q.size = 0;
+		q.last = null;
 	}
 	
 	private class QueueIterator implements Iterator<E> {
