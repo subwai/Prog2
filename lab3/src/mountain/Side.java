@@ -19,10 +19,13 @@ public class Side{
 		return m;
 	}
 	public boolean equalPoints(Point p1, Point p2){
+		return comparePoints(p1,p2) || comparePoints(p2,p1);
+	}
+	private boolean comparePoints(Point p1, Point p2){
 		return 
-			p1.getX() == this.p1.getX() &&
-			p1.getY() == this.p1.getY() &&
-			p2.getX() == this.p2.getX() &&
-			p2.getY() == this.p2.getY();
+				(p1.getX() == this.p1.getX() &&
+				p1.getY() == this.p1.getY() &&
+				p2.getX() == this.p2.getX() &&
+				p2.getY() == this.p2.getY());
 	}
 }
