@@ -30,7 +30,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		return true;
 	}
 	public E peek() {
-		HeapEntry<E> x = (HeapEntry<E>)heap[0];
+		HeapEntry<E> x = extract(heap[0]);
 		return x.obj;
 	}
 	public E poll() {

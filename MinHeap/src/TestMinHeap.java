@@ -25,10 +25,7 @@ public class TestMinHeap {
 		heap.offer(17);
 		heap.offer(4);
 		heap.offer(9);
-		for(Integer i : heap){
-			System.out.println(i);
-		}
-		fail("not implemented");
+		assertTrue("Min element is not at top",heap.peek() == 4);
 	}
 
 }
