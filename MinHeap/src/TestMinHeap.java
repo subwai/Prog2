@@ -41,6 +41,24 @@ public class TestMinHeap {
 		heap.insert(10);
 		assertEquals("Incorrect size",1,heap.size());
 	}
+	@Test
+	public void testDelete(){
+		heap.insert(10);
+		heap.insert(5);
+		MinHeap.HeapEntry<Integer> he = heap.insert(15);
+		heap.insert(20);
+		heap.insert(9);
+		heap.insert(18);
+		heap.insert(8);
+		heap.delete(he);
+		assertTrue("wrong poll",heap.poll() == 5);
+		assertTrue("wrong poll",heap.poll() == 8);
+		assertTrue("wrong poll",heap.poll() == 9);
+		assertTrue("wrong poll",heap.poll() == 10);
+		assertTrue("wrong poll",heap.poll() == 18);
+		assertTrue("wrong poll",heap.poll() == 20);
+		assertTrue("not empty",heap.isEmpty());
+	}	
 	
 	@Test
 	public void testDecreaseKey(){
