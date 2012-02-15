@@ -26,6 +26,12 @@ public class TestMinHeap {
 		heap.offer(4);
 		heap.offer(9);
 		assertTrue("Min element is not at top",heap.peek() == 4);
+		assertTrue("Element 4 should have ben polled",heap.poll() == 4);
+		assertTrue("Element 5 should have ben polled",heap.poll() == 5);
+		assertTrue("Element 9 should have ben polled",heap.poll() == 9);
+		assertTrue("Element 10 should have ben polled",heap.poll() == 10);
+		assertTrue("Element 15 should have ben polled",heap.poll() == 15);
+		assertTrue("Element 17 should have ben polled",heap.poll() == 17);
 	}
 
 }
