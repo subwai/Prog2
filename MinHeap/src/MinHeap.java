@@ -43,28 +43,49 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		
 		return null;
 	}
+	/** Adds the specified item to this heap.
+		@param x The item to be added to this heap
+		@return The HeapEntry object of the inserted item
+	*/
 	public HeapEntry<E> insert(E x) {
 		return null;
 	}
+	
+	/** Changes the value of the specified HeapEntry object to
+		newValue if the new value is less than the old value.
+		@param e The HeapEntry whose value is to be changed
+		@param newValue The new value of the specified HeapEntry object
+		@throws IllegalArgumentException if the new value
+				is greater than the old value
+	*/
 	public void decreaseKey(HeapEntry<E> e, E newValue) {
 		if (compareTo(newValue, e.obj) < 0) {
 			e.obj = newValue;
 		}
 	}
+	/** Changes the value of the specified HeapEntry object to
+		newValue if the new value is greater than the old value.
+		@param e The HeapEntry whose value is to be changed
+		@param newValue The new value of the specified HeapEntry object
+		@throws IllegalArgumentException if the new value
+				is less than the old value
+	 */
 	public void increaseKey(HeapEntry<E> e, E newValue) {
 		
 	}
+	
+	/** Deletes the specified HeapEntry object from this heap. */
 	public void delete(HeapEntry<E> e) {
 		heap[e.pos] = null;
 	}
-	/* Internal auxiliary method to percolate item up the heap.
-	@param index the index at which the percolate starts
+	/** Internal auxiliary method to percolate item up the heap.
+		@param index the index at which the percolate starts
 	*/
 	private void percolateUp(int index){
 		
 	}
-	/* Internal auxiliary method to percolate item down the heap.
-	@param index the index at which the percolate starts.
+	/** Internal auxiliary method to percolate item down the heap.
+		@param index the index at which the percolate starts.
 	*/
 	private void percolateDown(int index){
 		
