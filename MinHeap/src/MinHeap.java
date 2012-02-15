@@ -75,7 +75,11 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 				is less than the old value
 	 */
 	public void increaseKey(HeapEntry<E> e, E newValue) {
-		
+		if (compareTo(newValue, e.obj) > 0) {
+			e.obj = newValue;
+		} else {
+			throw new IllegalArgumentException();
+		}
 	}
 	
 	/** Deletes the specified HeapEntry object from this heap. */
