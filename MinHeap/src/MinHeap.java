@@ -96,7 +96,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	/** Deletes the specified HeapEntry object from this heap. */
 	public void delete(HeapEntry<E> e) {
 		e.obj = getAt(size()-1).obj;
-		HeapEntry<E> parent = getParent();
+		HeapEntry<E> parent = getParent(e);
 		if (parent == null || compareTo(e.obj, parent.obj) > 0) {
 			percolateDown(e.pos);
 		} else {
