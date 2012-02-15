@@ -55,7 +55,15 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
 	 * Print tree contents in inorder.
 	 */
 	public void printTree() {
-
+		printTree(root);
+	}
+	private void printTree(BinaryNode<E> root){
+		if(root == null){
+			return;
+		}
+		printTree(root.left);
+		System.out.println(root.toString());
+		printTree(root.right);
 	}
 
 	/** 
