@@ -6,15 +6,19 @@ import java.util.Queue;
 public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	public static final int INITIAL_CAPACITY = 20;
 	private Object[] heap;
+	private int size;
+	private Comparator<E> cmp;
 	
 	public MinHeap() {
 		heap = new Object[INITIAL_CAPACITY];
+		size = 0;
 	}
 	public MinHeap(Comparator<E> cmp) {
-		
+		this();
+		this.cmp = cmp;
 	}
 	public int size() {
-		return 0;
+		return size;
 	}
 	public boolean isEmpty() {
 		return false;
