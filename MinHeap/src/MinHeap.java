@@ -33,7 +33,10 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		return x.obj;
 	}
 	public E poll() {
-		return null;
+		HeapEntry<E> el = getAt(0);
+		//put last at first
+		percolateDown(getAt(0).pos);
+		return el.obj;
 	}
 	public Iterator<E> iterator() {
 		return null;
@@ -61,6 +64,10 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	*/
 	private void percolateDown(int index){
 		
+	}
+	
+	private HeapEntry<E> getAt(int i) {
+		return (HeapEntry<E>)heap[i];
 	}
 	public static class HeapEntry<E>{
 		int pos;
