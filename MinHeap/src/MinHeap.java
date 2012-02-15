@@ -7,11 +7,12 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	public static final int INITIAL_CAPACITY = 20;
 	private Object[] heap;
 	private int size;
-	private Comparator<E> cmp;
+	private Comparator<E> cmp	;
 	
 	public MinHeap() {
 		heap = new Object[INITIAL_CAPACITY];
 		size = 0;
+		cmp = null;
 	}
 	public MinHeap(Comparator<E> cmp) {
 		this();
@@ -68,5 +69,12 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 			this.obj = obj;
 			this.pos = pos;
 		}
+	}
+	private int compareTo(E e, E other){
+		if(cmp == null){
+			//TODO: implement comparable 
+		}
+		//TODO: implement comparator
+		return -1;
 	}
 }
