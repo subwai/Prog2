@@ -104,10 +104,41 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		if(index > (size()-1)){
 			return; //index out of bounds, silent
 		}
+		HeapEntry<E> root = getAt(index);
+		percolateDown(root);
+	}
+	//recursive method
+	private void percolateDown(HeapEntry<E> root){
+		HeapEntry<E> minChild = findMinChild(root);
+		if(minChild == null){
+			return;
+		}
+		E temp = root.obj;
+		root.obj = minChild.obj;
+		minChild.obj = temp;
+		percolateDown(minChild);
+	}
+	private HeapEntry<E> findMinChild(HeapEntry<E> root){
+		HeapEntry<E> left = getAt(2*root.pos+1),
+				right = getAt(2*root.pos+2);
+		if(right == null){
+			return left;
+		} // if right exists then left also always exists.
+		
+		int cRight = compareTo(root.obj, right.obj),
+				cLeft = compareTo(root.obj, left.obj);
+		if(cRight <= cLeft){
+			return right;
+		}else{
+			return left;
+		}
 	}
 	
-	private HeapEntry<E> getAt(int i) {
-		return (HeapEntry<E>)heap[i];
+	private HeapEntry<E> getAt(int index) {
+		if(index > (size() -1)){
+			return null;
+		}
+		return (HeapEntry<E>)heap[index];
 	}
 	public static class HeapEntry<E>{
 		int pos;
