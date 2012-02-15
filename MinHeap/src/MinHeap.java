@@ -62,6 +62,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		}
 		HeapEntry<E> el = new HeapEntry<E>(x, size());
 		heap[size++] = el;
+		percolateUp(el);
 		return el;
 	}
 	
@@ -123,7 +124,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 			return; //reached top
 		}
 		HeapEntry<E> parent = getParent(node);
-		if(parent == null || compareTo(parent.obj,node.obj) >= 0){
+		if(parent == null || compareTo(parent.obj,node.obj) <= 0){
 			return;
 		}
 		switchPos(parent,node);
