@@ -76,7 +76,15 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
 	 * Print tree contents in inorder.
 	 */
 	public void printTree() {
-
+		printTree(root);
+	}
+	private void printTree(BinaryNode<E> root){
+		if(root == null){
+			return;
+		}
+		printTree(root.left);
+		System.out.println(root.toString());
+		printTree(root.right);
 	}
 
 	/** 
@@ -115,6 +123,28 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
 		private BinaryNode(E element) {
 			this.element = element;
 		}	
+	}
+	
+	public static void main(String[] args){
+		BinarySearchTree<Integer> tree = new BinarySearchTree<Integer>();
+		tree.add(79);
+		tree.add(45);
+		tree.add(96);
+		tree.add(82);
+		tree.add(14);
+		tree.add(58);
+		tree.add(73);
+		
+		//duplicates
+		tree.add(14);
+		tree.add(79);
+		System.out.println("size: " + tree.size());
+		System.out.println("height:" + tree.height());
+		System.out.println("In order:");
+		tree.printTree();
+		System.out.println("------");
+		BSTVisualizer viz = new BSTVisualizer("viz",500,500);
+		viz.drawTree(tree);
 	}
 	
 }
