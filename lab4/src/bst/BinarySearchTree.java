@@ -91,7 +91,9 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
 	 * Builds a complete tree from the elements in the tree.
 	 */
 	public void rebuild() {
-
+		E[] a = (E[]) new Comparable[size()];
+		toArray(root,a,0);
+		root = buildTree(a,0,a.length-1);
 	}
 	
 	/*
