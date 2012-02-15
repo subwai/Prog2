@@ -40,10 +40,9 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		HeapEntry<E> top = getAt(0),
 					last = getAt(size() - 1);
 
-		top.obj = last.obj;
+		E temp = top.obj;
 		delete(last);
-		percolateDown(0);
-		return top.obj;
+		return temp;
 	}
 	
 	/** Adds the specified item to this heap.
