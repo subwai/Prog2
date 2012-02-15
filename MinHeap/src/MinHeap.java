@@ -102,7 +102,26 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		if(index > (size()-1)){
 			return; //index out of bounds, silent
 		}
+		percolateUp(getAt(index));
 	}
+	
+	private void percolateUp(HeapEntry<E> node){
+		if(node == null){
+			return; //reached top
+		}
+		HeapEntry<E> parent = getParent(node);
+		if(parent == null || compareTo(parent.obj,node.obj) >= 0){
+			return;
+		}
+		switchPos(parent,node);
+		percolateUp(parent);
+	}
+	
+	private HeapEntry<E> getParent(HeapEntry<E> node){
+		return getAt((node.pos - 1)/2);
+	}
+	
+	
 	/** Internal auxiliary method to percolate item down the heap.
 		@param index the index at which the percolate starts.
 	*/
@@ -115,13 +134,14 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	}
 	//recursive method
 	private void percolateDown(HeapEntry<E> root){
+		if(root == null){
+			return;
+		}
 		HeapEntry<E> minChild = findMinChild(root);
 		if(minChild == null){
 			return;
 		}
-		E temp = root.obj;
-		root.obj = minChild.obj;
-		minChild.obj = temp;
+		switchPos(root,minChild);
 		percolateDown(minChild);
 	}
 	private HeapEntry<E> findMinChild(HeapEntry<E> root){
@@ -152,6 +172,11 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 			temp[i] = heap[i];
 		}
 		heap = temp;
+	}
+	private void switchPos(HeapEntry<E> e1, HeapEntry<E> e2){
+		E temp = e1.obj;
+		e1.obj = e2.obj;
+		e2.obj = temp;
 	}
 
 	public static class HeapEntry<E>{
