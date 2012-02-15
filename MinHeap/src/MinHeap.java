@@ -40,13 +40,16 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		return el.obj;
 	}
 	public Iterator<E> iterator() {
+		
 		return null;
 	}
 	public HeapEntry<E> insert(E x) {
 		return null;
 	}
 	public void decreaseKey(HeapEntry<E> e, E newValue) {
-		
+		if (compareTo(newValue, e.obj) < 0) {
+			e.obj = newValue;
+		}
 	}
 	public void increaseKey(HeapEntry<E> e, E newValue) {
 		
