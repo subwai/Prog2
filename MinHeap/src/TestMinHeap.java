@@ -1,6 +1,7 @@
 import static org.junit.Assert.*;
 
 import java.util.Comparator;
+import java.util.Iterator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -116,6 +117,22 @@ public class TestMinHeap {
 		public int compare(Integer arg0, Integer arg1) {
 			return (arg1).intValue() - (arg0).intValue();
 		}
+		
+	}
+	@Test
+	public void testIterator(){
+		Iterator itr = heap.iterator();
+		assertFalse("empty heap should not have next",itr.hasNext());
+		heap.offer(10);
+		heap.offer(10);
+		heap.offer(10);
+		itr = heap.iterator();
+		assertTrue("heap should not be empty",itr.hasNext());
+		int times = 0;
+		for(Integer i: heap){
+			times++;
+		}
+		assertTrue("Should have 3 elements",times == 3);
 		
 	}
 
