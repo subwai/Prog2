@@ -56,8 +56,10 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		if (heap.length == size()) {
 			increaseCapacity();
 		}
-		heap[size()] = new HeapEntry<E>(x, size());
-		return null;
+		HeapEntry<E> el = new HeapEntry<E>(x, size());
+		heap[size()] = el;
+		size++;
+		return el;
 	}
 	
 	/** Changes the value of the specified HeapEntry object to
