@@ -1,6 +1,7 @@
 import java.util.AbstractQueue;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 
 public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
@@ -44,10 +45,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		percolateDown(0);
 		return top.obj;
 	}
-	public Iterator<E> iterator() {
-		
-		return null;
-	}
+	
 	/** Adds the specified item to this heap.
 		@param x The item to be added to this heap
 		@return The HeapEntry object of the inserted item
@@ -192,6 +190,33 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		}
 		public int getPos(){
 			return pos;
+		}
+	}
+	public Iterator<E> iterator() {
+		return new MinHeapIterator();
+	}
+	private class MinHeapIterator implements Iterator<E>{
+		private int pos;
+		private boolean removed = false;
+		public MinHeapIterator(){
+			pos = 0;
+		}
+		@Override
+		public boolean hasNext() {
+			return size() > pos;
+		}
+
+		@Override
+		public E next() {
+			if(!hasNext()){
+				throw new NoSuchElementException();
+			}
+			return getAt(pos++).obj;
+		}
+
+		@Override
+		public void remove() {
+			delete(getAt(pos));
 		}
 	}
 	
