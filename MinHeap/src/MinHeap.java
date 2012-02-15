@@ -33,6 +33,9 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		return x.obj;
 	}
 	public E poll() {
+		if(isEmpty()){
+			return null;
+		}
 		HeapEntry<E> top = getAt(0),
 					last = getAt(size() - 1);
 
@@ -94,13 +97,17 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		@param index the index at which the percolate starts
 	*/
 	private void percolateUp(int index){
-		
+		if(index > (size()-1)){
+			return; //index out of bounds, silent
+		}
 	}
 	/** Internal auxiliary method to percolate item down the heap.
 		@param index the index at which the percolate starts.
 	*/
 	private void percolateDown(int index){
-		
+		if(index > (size()-1)){
+			return; //index out of bounds, silent
+		}
 	}
 	
 	private void increaseCapacity() {
