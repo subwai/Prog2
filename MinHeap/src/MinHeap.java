@@ -26,7 +26,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		return size == 0;
 	}
 	public boolean offer(E x) {
-		HeapEntry<E> he = new HeapEntry<E>(x,20);
+		insert(x);
 		return true;
 	}
 	public E peek() {
@@ -51,12 +51,17 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		@return The HeapEntry object of the inserted item
 	*/
 	public HeapEntry<E> insert(E x) {
+		if(x == null){
+			throw new NullPointerException();
+		}
+		if(cmp == null && !(x instanceof Comparable)){
+			throw new ClassCastException();
+		}
 		if (heap.length == size()) {
 			increaseCapacity();
 		}
 		HeapEntry<E> el = new HeapEntry<E>(x, size());
-		heap[size()] = el;
-		size++;
+		heap[size++] = el;
 		return el;
 	}
 	
