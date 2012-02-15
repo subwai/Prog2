@@ -98,13 +98,13 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	public void delete(HeapEntry<E> e) {
 		e.obj = getAt(size-1).obj;
 		heap[size-1] = null;
+		size--;
 		HeapEntry<E> parent = getParent(e);
-		if (parent == null || compareTo(e.obj, parent.obj) > 0) {
+		if (parent == null || compareTo(e.obj, parent.obj) >= 0) {
 			percolateDown(e.pos);
 		} else {
 			percolateUp(e.pos);
 		}
-		size--;
 	}
 	
 	/** Internal auxiliary method to percolate item up the heap.
@@ -137,7 +137,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		@param index the index at which the percolate starts.
 	*/
 	private void percolateDown(int index){
-		if(index > (size()-1)){
+		if(index >= (size())){
 			return; //index out of bounds, silent
 		}
 		HeapEntry<E> root = getAt(index);
@@ -157,17 +157,28 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	}
 	private HeapEntry<E> findMinChild(HeapEntry<E> root){
 		HeapEntry<E> left = getAt(2*root.pos+1),
-				right = getAt(2*root.pos+2);
-		if(right == null){
-			return left;
-		} // if right exists then left also always exists.
+					 right = getAt(2*root.pos+2);
 		
-		int cRight = compareTo(root.obj, right.obj),
-				cLeft = compareTo(root.obj, left.obj);
-		if(cRight <= cLeft){
-			return right;
-		}else{
-			return left;
+		if (right != null && left != null) {
+			if(compareTo(right.obj, left.obj) < 0) {
+				return right;
+			}else{
+				return left;
+			}
+		} else if (right != null) {
+			if (compareTo(right.obj, root.obj) < 0) {
+				return right;
+			} else {
+				return null;
+			}
+		} else if (left != null) {
+			if (compareTo(left.obj, root.obj) < 0) {
+				return left;
+			} else {
+				return null;
+			}
+		} else {
+			return null;
 		}
 	}
 	private void increaseCapacity() {
