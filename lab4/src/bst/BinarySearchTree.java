@@ -8,7 +8,7 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
 	 * Constructs an empty binary searchtree.
 	 */
 	public BinarySearchTree() {
-		
+		size = 0;
 	}
 
 	/**
@@ -17,15 +17,36 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
 	 * @return true if the the element was inserted
 	 */
 	public boolean add(E x) {
-		return addToTree(x, root);
+		if(root == null){
+			root = new BinaryNode<E>(x);
+			size++;
+			return true;
+		}
+		if(addToTree(x, root)){
+			size++;
+			return true;
+		}
+		return false;
 	}
 	
 	private boolean addToTree(E x, BinaryNode<E> root) {
-		if (root == null) {
+		int c = x.compareTo(root.element);
+		if (c == 0) {
 			return false;
+		} else if (c < 0) {
+			if (root.left == null) {
+				root.left = new BinaryNode<E>(x);
+			} else {
+				addToTree(x, root.left);
+			}
+		} else {
+			if (root.right == null) {
+				root.right = new BinaryNode<E>(x);
+			} else {
+				addToTree(x, root.right);
+			}
 		}
-		
-		if (root.left < x)
+		return true;
 	}
 	
 	/**
