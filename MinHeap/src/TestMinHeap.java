@@ -33,5 +33,19 @@ public class TestMinHeap {
 		assertTrue("Element 15 should have ben polled",heap.poll() == 15);
 		assertTrue("Element 17 should have ben polled",heap.poll() == 17);
 	}
+	@Test
+	public void testInsert(){
+		heap.insert(10);
+		assertEquals("Incorrect size",1,heap.size());
+	}
+	
+	@Test
+	public void testDecreaseKey(){
+		MinHeap.HeapEntry<Integer> he = heap.insert(10);
+		heap.offer(5);
+		heap.decreaseKey(he, 2);
+		assertTrue("Min element should be decreased heap entry", heap.poll() == 2);
+		assertEquals("Size should be one, is " + heap.size(),heap.size(),1);
+	}
 
 }
