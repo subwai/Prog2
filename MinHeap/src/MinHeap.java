@@ -72,6 +72,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	public void decreaseKey(HeapEntry<E> e, E newValue) {
 		if (compareTo(newValue, e.obj) < 0) {
 			e.obj = newValue;
+			percolateUp(e.pos);
 		} else {
 			throw new IllegalArgumentException();
 		}
@@ -86,6 +87,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	public void increaseKey(HeapEntry<E> e, E newValue) {
 		if (compareTo(newValue, e.obj) > 0) {
 			e.obj = newValue;
+			percolateDown(e.pos);
 		} else {
 			throw new IllegalArgumentException();
 		}
@@ -93,8 +95,15 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	
 	/** Deletes the specified HeapEntry object from this heap. */
 	public void delete(HeapEntry<E> e) {
-		heap[e.pos] = null;
+		e.obj = getAt(size()-1).obj;
+		HeapEntry<E> parent = getParent();
+		if (parent == null || compareTo(e.obj, parent.obj) > 0) {
+			percolateDown(e.pos);
+		} else {
+			percolateUp(e.pos);
+		}
 	}
+	
 	/** Internal auxiliary method to percolate item up the heap.
 		@param index the index at which the percolate starts
 	*/
@@ -103,6 +112,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 			return; //index out of bounds, silent
 		}
 	}
+	
 	/** Internal auxiliary method to percolate item down the heap.
 		@param index the index at which the percolate starts.
 	*/
