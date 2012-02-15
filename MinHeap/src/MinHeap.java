@@ -37,11 +37,9 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		if(isEmpty()){
 			return null;
 		}
-		HeapEntry<E> top = getAt(0),
-					last = getAt(size() - 1);
-
+		HeapEntry<E> top = getAt(0);
 		E temp = top.obj;
-		delete(last);
+		delete(top);
 		return temp;
 	}
 	
@@ -98,14 +96,15 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	
 	/** Deletes the specified HeapEntry object from this heap. */
 	public void delete(HeapEntry<E> e) {
-		e.obj = getAt(--size).obj;
-		heap[size] = null;
+		e.obj = getAt(size-1).obj;
+		heap[size-1] = null;
 		HeapEntry<E> parent = getParent(e);
 		if (parent == null || compareTo(e.obj, parent.obj) > 0) {
 			percolateDown(e.pos);
 		} else {
 			percolateUp(e.pos);
 		}
+		size--;
 	}
 	
 	/** Internal auxiliary method to percolate item up the heap.
@@ -227,7 +226,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	}
 	
 	private HeapEntry<E> getAt(int index) {
-		if(index > (size() -1)){
+		if(index >= (size())){
 			return null;
 		}
 		return extract(heap[index]);
