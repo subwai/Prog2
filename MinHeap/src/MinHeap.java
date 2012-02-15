@@ -50,6 +50,10 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		@return The HeapEntry object of the inserted item
 	*/
 	public HeapEntry<E> insert(E x) {
+		if (heap.length == size()) {
+			increaseCapacity();
+		}
+		heap[size()] = new HeapEntry<E>(x, size());
 		return null;
 	}
 	
@@ -97,6 +101,14 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	*/
 	private void percolateDown(int index){
 		
+	}
+	
+	private void increaseCapacity() {
+		Object[] temp = new Object[size()*2];
+		for (int i = 0; i < heap.length; i++) {
+			temp[i] = heap[i];
+		}
+		heap = temp;
 	}
 	
 	private HeapEntry<E> getAt(int i) {
