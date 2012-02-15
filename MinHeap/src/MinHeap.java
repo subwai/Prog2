@@ -33,11 +33,13 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		return x.obj;
 	}
 	public E poll() {
-		HeapEntry<E> el = getAt(0);
-		getAt(0).obj = getAt(size()).obj;
-		delete(getAt(size()));
-		percolateDown(getAt(0).pos);
-		return el.obj;
+		HeapEntry<E> top = getAt(0),
+					last = getAt(size() - 1);
+
+		top.obj = last.obj;
+		delete(last);
+		percolateDown(0);
+		return top.obj;
 	}
 	public Iterator<E> iterator() {
 		
