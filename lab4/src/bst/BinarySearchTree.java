@@ -31,22 +31,24 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
 	
 	private boolean addToTree(E x, BinaryNode<E> root) {
 		int c = x.compareTo(root.element);
-		if (c == 0) {
+		if (c == 0 || root == null) {
 			return false;
-		} else if (c < 0) {
+		}
+		if (c < 0) {
 			if (root.left == null) {
 				root.left = new BinaryNode<E>(x);
+				return true;
 			} else {
-				addToTree(x, root.left);
+				return addToTree(x, root.left);
 			}
 		} else {
 			if (root.right == null) {
 				root.right = new BinaryNode<E>(x);
+				return true;
 			} else {
-				addToTree(x, root.right);
+				return addToTree(x, root.right);
 			}
 		}
-		return true;
 	}
 	
 	/**
@@ -93,6 +95,10 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
 	public void rebuild() {
 		E[] a = (E[]) new Comparable[size()];
 		toArray(root,a,0);
+		System.out.println("rebuild toarray result:");
+		for(E x: a){
+			System.out.println(x);
+		}
 		root = buildTree(a,0,a.length-1);
 	}
 	
@@ -103,12 +109,12 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
 	 * position in a).
 	 */
 	private int toArray(BinaryNode<E> n, E[] a, int index) {
-		if(root == null){
+		if(n == null){
 			return index;
 		}
-		index = toArray(root.left, a, index);
-		a[index] = root.element;
-		return toArray(root.right, a, index+1);
+		index = toArray(n.left, a, index);
+		a[index] = n.element;
+		return toArray(n.right, a, index+1);
 	}
 
 	
@@ -119,7 +125,15 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
 	 * Returns the root of tree.
 	 */
 	private BinaryNode<E> buildTree(E[] a, int first, int last) {
-		return null;
+		if(first > last){
+			return null;
+		}
+		int middle = (first+last)/2;
+		BinaryNode<E> root = new BinaryNode<E>(a[middle]);
+		root.left = buildTree(a,first,middle-1);
+		root.right = buildTree(a,middle+1,last);
+		return root;
+		
 	}
 	
 
@@ -147,12 +161,19 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
 		//duplicates
 		tree.add(14);
 		tree.add(79);
+		tree.add(83);
+		tree.add(10000);
+		tree.add(1);
+		tree.add(1337);
+		tree.add(8);
 		System.out.println("size: " + tree.size());
 		System.out.println("height:" + tree.height());
 		System.out.println("In order:");
 		tree.printTree();
 		System.out.println("------");
 		BSTVisualizer viz = new BSTVisualizer("viz",500,500);
+		viz.drawTree(tree);
+		tree.rebuild();
 		viz.drawTree(tree);
 	}
 	
