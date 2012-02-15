@@ -4,8 +4,11 @@ import java.util.Iterator;
 import java.util.Queue;
 
 public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
+	public static final int INITIAL_CAPACITY = 20;
+	private Object[] heap;
+	
 	public MinHeap() {
-		
+		heap = new Object[INITIAL_CAPACITY];
 	}
 	public MinHeap(Comparator<E> cmp) {
 		
@@ -17,10 +20,12 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		return false;
 	}
 	public boolean offer(E x) {
-		return false;
+		HeapEntry<E> he = new HeapEntry<E>(x,20);
+		return true;
 	}
 	public E peek() {
-		return null;
+		HeapEntry<E> x = (HeapEntry<E>)heap[0];
+		return x.obj;
 	}
 	public E poll() {
 		return null;
@@ -40,10 +45,6 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	public void delete(HeapEntry<E> e) {
 		
 	}
-
-	private static class HeapEntry<E>{
-
-	}
 	/* Internal auxiliary method to percolate item up the heap.
 	@param index the index at which the percolate starts
 	*/
@@ -55,5 +56,13 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	*/
 	private void percolateDown(int index){
 		
+	}
+	public static class HeapEntry<E>{
+		int pos;
+		E obj;
+		private HeapEntry(E obj, int pos){
+			this.obj = obj;
+			this.pos = pos;
+		}
 	}
 }
