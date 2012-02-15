@@ -7,7 +7,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	public static final int INITIAL_CAPACITY = 20;
 	private Object[] heap;
 	private int size;
-	private Comparator<E> cmp	;
+	private Comparator<E> cmp;
 	
 	public MinHeap() {
 		heap = new Object[INITIAL_CAPACITY];
@@ -53,7 +53,13 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		@return The HeapEntry object of the inserted item
 	*/
 	public HeapEntry<E> insert(E x) {
-		return null;
+		if (heap.length == size()) {
+			increaseCapacity();
+		}
+		HeapEntry<E> el = new HeapEntry<E>(x, size());
+		heap[size()] = el;
+		size++;
+		return el;
 	}
 	
 	/** Changes the value of the specified HeapEntry object to
@@ -140,6 +146,14 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		}
 		return (HeapEntry<E>)heap[index];
 	}
+	private void increaseCapacity() {
+		Object[] temp = new Object[size()*2];
+		for (int i = 0; i < heap.length; i++) {
+			temp[i] = heap[i];
+		}
+		heap = temp;
+	}
+
 	public static class HeapEntry<E>{
 		int pos;
 		E obj;
@@ -150,9 +164,10 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	}
 	private int compareTo(E e, E other){
 		if(cmp == null){
-			//TODO: implement comparable 
+			Comparable ce = (Comparable)e;
+			return ce.compareTo(other);
+		} else {
+			return cmp.compare(e, other);
 		}
-		//TODO: implement comparator
-		return -1;
 	}
 }
