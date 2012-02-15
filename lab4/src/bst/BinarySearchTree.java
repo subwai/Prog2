@@ -83,7 +83,7 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
 			return;
 		}
 		printTree(root.left);
-		System.out.println(root.toString());
+		System.out.println(root.element.toString());
 		printTree(root.right);
 	}
 
@@ -103,8 +103,15 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
 	 * position in a).
 	 */
 	private int toArray(BinaryNode<E> n, E[] a, int index) {
-		return 0;
+		if(root == null){
+			return index;
+		}
+		index = toArray(root.left, a, index);
+		a[index] = root.element;
+		return toArray(root.right, a, index+1);
 	}
+
+	
 	
 	/*
 	 * Builds a complete tree from the elements a[first]..a[last].
