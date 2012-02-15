@@ -33,7 +33,8 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	}
 	public E poll() {
 		HeapEntry<E> el = getAt(0);
-		//put last at first
+		getAt(0).obj = getAt(size()).obj;
+		delete(getAt(size()));
 		percolateDown(getAt(0).pos);
 		return el.obj;
 	}
@@ -50,7 +51,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		
 	}
 	public void delete(HeapEntry<E> e) {
-		
+		heap[e.pos] = null;
 	}
 	/* Internal auxiliary method to percolate item up the heap.
 	@param index the index at which the percolate starts
