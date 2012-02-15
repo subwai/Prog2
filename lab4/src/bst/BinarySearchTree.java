@@ -104,4 +104,26 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
 		}	
 	}
 	
+	public static void main(String[] args){
+		BinarySearchTree<Integer> tree = new BinarySearchTree<Integer>();
+		tree.add(79);
+		tree.add(45);
+		tree.add(96);
+		tree.add(82);
+		tree.add(14);
+		tree.add(58);
+		tree.add(73);
+		
+		//duplicates
+		tree.add(14);
+		tree.add(79);
+		System.out.println("size: " + tree.size());
+		System.out.println("height:" + tree.height());
+		System.out.println("In order:");
+		tree.printTree();
+		System.out.println("------");
+		BSTVisualizer viz = new BSTVisualizer("viz",500,500);
+		viz.drawTree(tree);
+	}
+	
 }
