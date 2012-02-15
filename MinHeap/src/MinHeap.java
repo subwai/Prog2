@@ -207,6 +207,9 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		public int getPos(){
 			return pos;
 		}
+		public String toString(){
+			return obj.toString() + " at pos " + pos;
+		}
 	}
 	public Iterator<E> iterator() {
 		return new MinHeapIterator();
