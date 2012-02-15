@@ -72,6 +72,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	public void decreaseKey(HeapEntry<E> e, E newValue) {
 		if (compareTo(newValue, e.obj) < 0) {
 			e.obj = newValue;
+			percolateUp(e.pos);
 		} else {
 			throw new IllegalArgumentException();
 		}
@@ -86,6 +87,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	public void increaseKey(HeapEntry<E> e, E newValue) {
 		if (compareTo(newValue, e.obj) > 0) {
 			e.obj = newValue;
+			percolateDown(e.pos);
 		} else {
 			throw new IllegalArgumentException();
 		}
@@ -93,8 +95,15 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	
 	/** Deletes the specified HeapEntry object from this heap. */
 	public void delete(HeapEntry<E> e) {
-		heap[e.pos] = null;
+		e.obj = getAt(size()-1).obj;
+		HeapEntry<E> parent = getParent(e);
+		if (parent == null || compareTo(e.obj, parent.obj) > 0) {
+			percolateDown(e.pos);
+		} else {
+			percolateUp(e.pos);
+		}
 	}
+	
 	/** Internal auxiliary method to percolate item up the heap.
 		@param index the index at which the percolate starts
 	*/
@@ -120,7 +129,6 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	private HeapEntry<E> getParent(HeapEntry<E> node){
 		return getAt((node.pos - 1)/2);
 	}
-	
 	
 	/** Internal auxiliary method to percolate item down the heap.
 		@param index the index at which the percolate starts.
@@ -159,13 +167,6 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 			return left;
 		}
 	}
-	
-	private HeapEntry<E> getAt(int index) {
-		if(index > (size() -1)){
-			return null;
-		}
-		return (HeapEntry<E>)heap[index];
-	}
 	private void increaseCapacity() {
 		Object[] temp = new Object[size()*2];
 		for (int i = 0; i < heap.length; i++) {
@@ -180,19 +181,43 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	}
 
 	public static class HeapEntry<E>{
-		int pos;
-		E obj;
+		private int pos;
+		private E obj;
 		private HeapEntry(E obj, int pos){
 			this.obj = obj;
 			this.pos = pos;
 		}
+		public E getObj(){
+			return obj;
+		}
+		public int getPos(){
+			return pos;
+		}
 	}
+	
+	private HeapEntry<E> getAt(int index) {
+		if(index > (size() -1)){
+			return null;
+		}
+		return extract(heap[index]);
+	}
+	
+	@SuppressWarnings("unchecked")
 	private int compareTo(E e, E other){
 		if(cmp == null){
-			Comparable ce = (Comparable)e;
+			Comparable<E> ce = (Comparable<E>)e;
 			return ce.compareTo(other);
 		} else {
 			return cmp.compare(e, other);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private HeapEntry<E> extract(Object o) {
+		if(o instanceof HeapEntry<?>){
+			return ((HeapEntry<E>)o);
+		}else{
+			throw new RuntimeException();
 		}
 	}
 }
