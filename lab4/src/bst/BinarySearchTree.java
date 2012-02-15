@@ -95,10 +95,6 @@ public class BinarySearchTree<E extends Comparable<? super E>> {
 	public void rebuild() {
 		E[] a = (E[]) new Comparable[size()];
 		toArray(root,a,0);
-		System.out.println("rebuild toarray result:");
-		for(E x: a){
-			System.out.println(x);
-		}
 		root = buildTree(a,0,a.length-1);
 	}
 	
