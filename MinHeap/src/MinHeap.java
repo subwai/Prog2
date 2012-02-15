@@ -21,7 +21,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		return size;
 	}
 	public boolean isEmpty() {
-		return false;
+		return size == 0;
 	}
 	public boolean offer(E x) {
 		HeapEntry<E> he = new HeapEntry<E>(x,20);
