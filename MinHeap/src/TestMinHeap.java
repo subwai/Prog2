@@ -1,7 +1,6 @@
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -129,7 +128,7 @@ public class TestMinHeap {
 	}
 	@Test
 	public void testIterator(){
-		Iterator itr = heap.iterator();
+		Iterator<Integer> itr = heap.iterator();
 		assertFalse("empty heap should not have next",itr.hasNext());
 		heap.offer(10);
 		heap.offer(10);
