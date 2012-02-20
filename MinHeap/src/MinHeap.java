@@ -126,10 +126,13 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 			return;
 		}
 		switchPos(parent,node);
-		percolateUp(parent);
+		percolateUp(node);
 	}
 	
 	private HeapEntry<E> getParent(HeapEntry<E> node){
+		if(node.pos == 0){
+			return null;
+		}
 		return getAt((node.pos - 1)/2);
 	}
 	
@@ -151,9 +154,10 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		HeapEntry<E> minChild = findMinChild(root);
 		if(minChild == null){
 			return;
+		}else if(compareTo(minChild.obj, root.obj) < 0){
+			switchPos(root,minChild);
+			percolateDown(root);
 		}
-		switchPos(root,minChild);
-		percolateDown(minChild);
 	}
 	private HeapEntry<E> findMinChild(HeapEntry<E> root){
 		HeapEntry<E> left = getAt(2*root.pos+1),
@@ -189,9 +193,11 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		heap = temp;
 	}
 	private void switchPos(HeapEntry<E> e1, HeapEntry<E> e2){
-		E temp = e1.obj;
-		e1.obj = e2.obj;
-		e2.obj = temp;
+		int tempPos = e1.pos;
+		e1.pos = e2.pos;
+		e2.pos = tempPos;
+		heap[e1.pos] = e1;
+		heap[e2.pos] = e2;
 	}
 
 	public static class HeapEntry<E>{
@@ -216,7 +222,6 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	}
 	private class MinHeapIterator implements Iterator<E>{
 		private int pos;
-		private boolean removed = false;
 		public MinHeapIterator(){
 			pos = 0;
 		}

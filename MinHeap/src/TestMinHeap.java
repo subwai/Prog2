@@ -1,7 +1,11 @@
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,18 +32,12 @@ public class TestMinHeap {
 		heap.offer(17);
 		heap.offer(4);
 		heap.offer(9);
-		assertTrue("Min element is not at top",heap.peek() == 4);
-		assertTrue("Element 4 should have ben polled",heap.poll() == 4);
-		assertTrue("Element 5 should have ben polled",heap.poll() == 5);
-		assertTrue("Element 9 should have ben polled",heap.poll() == 9);
-		assertTrue("Element 10 should have ben polled",heap.poll() == 10);
-		assertTrue("Element 15 should have ben polled",heap.poll() == 15);
-		assertTrue("Element 17 should have ben polled",heap.poll() == 17);
+		this.testPollInteger(new Integer[]{4,5,9,10,15,17});
 	}
 	@Test
 	public void testInsert(){
 		heap.insert(10);
-		assertEquals("Incorrect size",1,heap.size());
+		this.testPollInteger(new Integer[]{10});
 	}
 	@Test
 	public void testDelete(){
@@ -51,22 +49,15 @@ public class TestMinHeap {
 		heap.insert(18);
 		heap.insert(8);
 		heap.delete(he);
-		assertTrue("wrong poll",heap.poll() == 5);
-		assertTrue("wrong poll",heap.poll() == 8);
-		assertTrue("wrong poll",heap.poll() == 9);
-		assertTrue("wrong poll",heap.poll() == 10);
-		assertTrue("wrong poll",heap.poll() == 18);
-		assertTrue("wrong poll",heap.poll() == 20);
-		assertTrue("not empty",heap.isEmpty());
-	}	
+		testPollInteger(new Integer[]{5,8,9,10,18,20});
+	}
 	
 	@Test
 	public void testDecreaseKey(){
 		MinHeap.HeapEntry<Integer> he = heap.insert(10);
 		heap.offer(5);
 		heap.decreaseKey(he, 2);
-		assertTrue("Min element should be decreased heap entry", heap.poll() == 2);
-		assertEquals("Size should be one, is " + heap.size(),heap.size(),1);
+		testPollInteger(new Integer[]{2,5});
 	}
 	
 	@Test
@@ -74,8 +65,7 @@ public class TestMinHeap {
 		MinHeap.HeapEntry<Integer> he = heap.insert(5);
 		heap.offer(10);
 		heap.increaseKey(he, 20);
-		assertTrue("Min element should be 10", heap.poll() == 10);
-		assertEquals("Size should be one, is " + heap.size(),heap.size(),1);
+		testPollInteger(new Integer[]{10,20});
 	}
 	
 	@Test
@@ -153,5 +143,48 @@ public class TestMinHeap {
 		assertTrue("Should have 3 elements",times == 3);
 		
 	}
-
+	
+	private void testPollInteger(Integer[] input_arr){
+		List<Integer> a = new ArrayList<Integer>();
+		Collections.addAll(a, input_arr);
+		
+		//find min
+		int min = (Integer)Collections.min(a);
+		
+		while(!heap.isEmpty()){
+			Integer curr = heap.poll();
+			a.remove(curr); //remove first occurance
+			assertTrue("Wrong poll order",min <= curr);
+			min = curr;
+		}
+		assertEquals("Did not poll all items",0,a.size());
+	}
+	
+	@Test
+	public void testInternalOrder(){
+		heap.offer(5);
+		heap.offer(4);
+		heap.offer(10);
+		heap.offer(11);
+		heap.offer(9);
+		heap.offer(7);
+		heap.poll();
+		List<Integer> heap_arr = new ArrayList<Integer>();
+		for(Integer val: heap){
+			heap_arr.add(val);
+		}
+		recursive_check(heap_arr,0);
+		testPollInteger(new Integer[]{5,7,9,10,11});
+	}
+	
+	private void recursive_check(List<Integer> heap_arr, int i){
+		if(i >= heap_arr.size()){
+			return;
+		}
+		Integer parent = heap_arr.get((i - 1)/2);
+		Integer child = heap_arr.get(i);
+		assertFalse("Parent should not be higher than child",parent > child);
+		recursive_check(heap_arr,2*i+1);
+		recursive_check(heap_arr,2*i+2);
+	}
 }
