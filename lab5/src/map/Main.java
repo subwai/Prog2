@@ -10,11 +10,12 @@ public class Main {
 		map.put(3, 14);
 		map.put(10, 10);
 		map.put(8, 9);
-		map.put(16, 7);
 		map.put(-13, 3);
 		map.put(0, 12);
 		map.put(-5, 13);
 		map.put(11, 16);
-		System.out.println(map.show());
+		map.put(150,0);
+		map.put(16, 7);
+		//System.out.println(map.show());
 	}
 }

@@ -133,12 +133,11 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 		
 		int newLength = table.length*2;
 		Entry<K,V>[] newTable = createTable(table.length*2);
-		//index()
 		for(Entry<K,V> e: table){
 			if(e != null){
 				newTable[index(e.key,newLength)] = e;
 			}
-		}
+
 		table = newTable;
 	}
 	
