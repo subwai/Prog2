@@ -35,11 +35,22 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 
 	@Override
 	public V put(K k, V v) {
-		int index = index(k);
-		Entry<K,V> e = find(index,k);
+		int i = index(k);
+		Entry<K,V> e = find(i,k);
 		V old = null;
 		if(e == null){
-			//TODO: implement...
+			e = new Entry(k,v);
+			if(table[i] == null){
+				table[i] = e;
+			}
+			else{
+				LinkIterator itr = new LinkIterator(i);
+				Entry<K,V> last = null;
+				while(itr.hasNext()){
+					last = itr.next();
+				}
+				last.next = e;
+			}
 		}else{
 			old = e.getValue();
 			e.setValue(v);
