@@ -15,7 +15,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	 * that orders its elements according to their natural ordering (using Comparable).
 	 */
 	public MinHeap() {
-		heap = (HeapEntry<E>[]) new HeapEntry[INITIAL_CAPACITY];
+		heap = createHeapEntryVector(INITIAL_CAPACITY);
 		size = 0;
 		cmp = null;
 	}
@@ -86,30 +86,30 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	
 	/** Changes the value of the specified HeapEntry object to
 		newValue if the new value is less than the old value.
-		@param e The HeapEntry whose value is to be changed
+		@param he The HeapEntry whose value is to be changed
 		@param newValue The new value of the specified HeapEntry object
 		@throws IllegalArgumentException if the new value
 				is greater than the old value
 	*/
-	public void decreaseKey(HeapEntry<E> e, E newValue) {
-		if (compare(newValue, e.obj) < 0) {
-			e.obj = newValue;
-			percolateUp(e.pos);
+	public void decreaseKey(HeapEntry<E> he, E newValue) {
+		if (compare(newValue, he.obj) < 0) {
+			he.obj = newValue;
+			percolateUp(he.pos);
 		} else {
 			throw new IllegalArgumentException();
 		}
 	}
 	/** Changes the value of the specified HeapEntry object to
 		newValue if the new value is greater than the old value.
-		@param e The HeapEntry whose value is to be changed
+		@param he The HeapEntry whose value is to be changed
 		@param newValue The new value of the specified HeapEntry object
 		@throws IllegalArgumentException if the new value
 				is less than the old value
 	 */
-	public void increaseKey(HeapEntry<E> e, E newValue) {
-		if (compare(newValue, e.obj) > 0) {
-			e.obj = newValue;
-			percolateDown(e.pos);
+	public void increaseKey(HeapEntry<E> he, E newValue) {
+		if (compare(newValue, he.obj) > 0) {
+			he.obj = newValue;
+			percolateDown(he.pos);
 		} else {
 			throw new IllegalArgumentException();
 		}
@@ -198,7 +198,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		return left;
 	}
 	private void increaseCapacity() {
-		HeapEntry<E>[] temp = (HeapEntry<E>[]) new HeapEntry[size*2];
+		HeapEntry<E>[] temp = createHeapEntryVector(size*2);
 		for (int i = 0; i < heap.length; i++) {
 			temp[i] = heap[i];
 		}
@@ -219,6 +219,11 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 			}
 		}
 		return false;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private HeapEntry<E>[] createHeapEntryVector(int size){
+		return (HeapEntry<E>[]) new HeapEntry[size];
 	}
 
 	public static class HeapEntry<E>{
