@@ -79,7 +79,7 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 			LinkIterator itr = new LinkIterator(i);
 			while(itr.hasNext()){
 				Entry<K,V> e = itr.next();
-				sb.append(e.key.toString());
+				sb.append(" " + e.toString());
 			}
 			sb.append("\n");
 		}
@@ -88,7 +88,7 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 
 	
 	private int index(K key) {
-		return key.hashCode() % table.length;
+		return Math.abs(key.hashCode()) % table.length;
 	}
 	
 	private Entry<K,V> find(int index, K key) {
