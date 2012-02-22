@@ -51,17 +51,10 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 		V old = null;
 		if(e == null){
 			e = new Entry<K,V>(k,v);
-			if(table[i] == null){
-				table[i] = e;
+			if(table[i] != null){
+				e.next = table[i];
 			}
-			else{
-				LinkIterator itr = new LinkIterator(i);
-				Entry<K,V> last = null;
-				while(itr.hasNext()){
-					last = itr.next();
-				}
-				last.next = e;
-			}
+			table[i] = e;
 			size++;
 		}else{
 			old = e.getValue();
