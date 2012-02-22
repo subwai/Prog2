@@ -131,7 +131,7 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 	}
 	
 	private void rehashIfNeeded(){
-		if(size < MAX_LOAD_FACTOR*table.length){//TODO! make smaller?
+		if(size < MAX_LOAD_FACTOR*table.length){
 			return;
 		}
 		
