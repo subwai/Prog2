@@ -48,6 +48,14 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 		return size;
 	}
 	
+	private int index(K key) {
+		return 0;
+	}
+	
+	private Entry<K,V> find(int index, K key) {
+		return null;
+	}
+	
 	private static class Entry<K,V> implements Map.Entry<K,V> {
 		
 		private K key;
