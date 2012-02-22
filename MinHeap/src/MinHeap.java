@@ -8,7 +8,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	public static final int INITIAL_CAPACITY = 20;
 	private HeapEntry<E>[] heap;
 	private int size;
-	private Comparator<E> cmp;
+	private Comparator<E> comparator;
 	
 	/**
 	 * Creates a MinHeap with the default initial capacity (11) 
@@ -17,7 +17,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	public MinHeap() {
 		heap = createHeapEntryVector(INITIAL_CAPACITY);
 		size = 0;
-		cmp = null;
+		comparator = null;
 	}
 	
 	/**
@@ -27,7 +27,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	 */
 	public MinHeap(Comparator<E> comparator) {
 		this();
-		this.cmp = comparator;
+		this.comparator = comparator;
 	}
 	
 	/**
@@ -50,8 +50,8 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		if(isEmpty()){
 			return null;
 		}
-		HeapEntry<E> x = heap[0];
-		return x.el;
+		HeapEntry<E> he = heap[0];
+		return he.el;
 	}
 	
 	public E poll() {
@@ -72,16 +72,16 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		if(x == null){
 			throw new NullPointerException();
 		}
-		if(cmp == null && !(x instanceof Comparable)){
+		if(comparator == null && !(x instanceof Comparable)){
 			throw new ClassCastException();
 		}
 		if (heap.length == size) {
 			increaseCapacity();
 		}
-		HeapEntry<E> el = new HeapEntry<E>(x, size);
-		heap[size++] = el;
-		percolateUp(el);
-		return el;
+		HeapEntry<E> he = new HeapEntry<E>(x, size);
+		heap[size++] = he;
+		percolateUp(he);
+		return he;
 	}
 	
 	/** Changes the value of the specified HeapEntry object to
@@ -142,16 +142,16 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		percolateUp(getAt(index));
 	}
 	
-	private void percolateUp(HeapEntry<E> node){
-		if(node == null){
+	private void percolateUp(HeapEntry<E> he){
+		if(he == null){
 			return; //reached top
 		}
-		HeapEntry<E> parent = getParent(node);
-		if(parent == null || compare(parent.el,node.el) <= 0){
+		HeapEntry<E> parent = getParent(he);
+		if(parent == null || compare(parent.el,he.el) <= 0){
 			return;
 		}
-		switchPos(parent,node);
-		percolateUp(node);
+		switchPos(parent,he);
+		percolateUp(he);
 	}
 	
 	/** Internal auxiliary method to percolate item down the heap.
@@ -166,22 +166,22 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	}
 	
 
-	private void percolateDown(HeapEntry<E> root){
-		if(root == null){
+	private void percolateDown(HeapEntry<E> he){
+		if(he == null){
 			return;
 		}
-		HeapEntry<E> minChild = findMinChild(root);
+		HeapEntry<E> minChild = findMinChild(he);
 		if(minChild == null){
 			return;
-		}else if(compare(minChild.el, root.el) < 0){
-			switchPos(root,minChild);
-			percolateDown(root);
+		}else if(compare(minChild.el, he.el) < 0){
+			switchPos(he,minChild);
+			percolateDown(he);
 		}
 	}
 	
-	private HeapEntry<E> findMinChild(HeapEntry<E> root){
-		HeapEntry<E> left = getAt(2*root.pos+1),
-					 right = getAt(2*root.pos+2);
+	private HeapEntry<E> findMinChild(HeapEntry<E> he){
+		HeapEntry<E> left = getAt(2*he.pos+1),
+					 right = getAt(2*he.pos+2);
 		
 		if (right != null && left != null) {
 			if(compare(right.el, left.el) < 0) {
@@ -193,11 +193,11 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		return left;
 	}
 	
-	private HeapEntry<E> getParent(HeapEntry<E> node){
-		if(node.pos == 0){
+	private HeapEntry<E> getParent(HeapEntry<E> he){
+		if(he.pos == 0){
 			return null;
 		}
-		return getAt((node.pos - 1)/2);
+		return getAt((he.pos - 1)/2);
 	}
 	
 	private void increaseCapacity() {
@@ -207,12 +207,12 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		}
 		heap = temp;
 	}
-	private void switchPos(HeapEntry<E> e1, HeapEntry<E> e2){
-		int tempPos = e1.pos;
-		e1.pos = e2.pos;
-		e2.pos = tempPos;
-		heap[e1.pos] = e1;
-		heap[e2.pos] = e2;
+	private void switchPos(HeapEntry<E> he1, HeapEntry<E> he2){
+		int tempPos = he1.pos;
+		he1.pos = he2.pos;
+		he2.pos = tempPos;
+		heap[he1.pos] = he1;
+		heap[he2.pos] = he2;
 	}
 	
 	private boolean contains(HeapEntry<E> he){
@@ -295,11 +295,11 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	
 	@SuppressWarnings("unchecked")
 	private int compare(E e, E other){
-		if(cmp == null){
+		if(comparator == null){
 			Comparable<E> ce = (Comparable<E>)e;
 			return ce.compareTo(other);
 		} else {
-			return cmp.compare(e, other);
+			return comparator.compare(e, other);
 		}
 	}
 }
