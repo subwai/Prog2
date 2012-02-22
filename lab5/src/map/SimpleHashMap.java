@@ -69,7 +69,7 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 
 	
 	private int index(K key) {
-		return 0;
+		return key.hashCode() % table.length;
 	}
 	
 	private Entry<K,V> find(int index, K key) {
