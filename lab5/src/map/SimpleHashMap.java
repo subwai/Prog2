@@ -78,11 +78,20 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 		K k = (K)arg0;
 		int i = index(k);
 		LinkIterator itr = new LinkIterator(i);
+		if (itr.hasNext()) {
+			Entry<K,V> e = itr.next();
+			if (e.key == k) {
+				V v = e.value;
+				e = e.next != null ? e.next : null;
+				size--;
+				return v;
+			}
+		}
 		while (itr.hasNext()) {
 			Entry<K,V> e = itr.next();
 			if (e.next != null && e.next.key == k) {
 				V v = e.next.value;
-				e.next = null;
+				e.next = e.next.next != null ? e.next.next : null;
 				size--;
 				return v;
 			}
