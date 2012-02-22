@@ -72,21 +72,19 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 		int i = index(k);
 		LinkIterator itr = new LinkIterator(i);
 		if (itr.hasNext()) {
-			Entry<K,V> e = itr.next();
-			if (e.key == k) {
-				V v = e.value;
-				e = e.next != null ? e.next : null;
+			Entry<K,V> prev = itr.next();
+			if (prev.key.equals(k)) {
+				table[i] = prev.next;
 				size--;
-				return v;
+				return prev.value;
 			}
-		}
-		while (itr.hasNext()) {
-			Entry<K,V> e = itr.next();
-			if (e.next != null && e.next.key == k) {
-				V v = e.next.value;
-				e.next = e.next.next != null ? e.next.next : null;
-				size--;
-				return v;
+			while (itr.hasNext()) {
+				Entry<K,V> e = itr.next();
+				if (e.key.equals(k)) {
+					prev.next = e.next;
+					size--;
+					return e.value;
+				}
 			}
 		}
 		return null;
