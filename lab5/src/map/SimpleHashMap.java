@@ -5,21 +5,21 @@ import java.util.Iterator;
 public class SimpleHashMap<K,V> implements Map<K,V> {
 	
 	public static final int INITIAL_CAPACITY = 16;
-	public static final double INITIAL_LOAD_FACTOR = 0.75;
+	public static final double MAX_LOAD_FACTOR = 0.75;
 	private Entry<K,V>[] table;
 	private int size;
 	
 	/** Constructs an empty hashmap with the default initial capacity (16)
 	 *  and the default load factor (0.75). */
 	public SimpleHashMap() {
-		table = (Entry<K,V>[]) new Entry[INITIAL_CAPACITY];
+		table = createTable(INITIAL_CAPACITY);
 		size = 0;
 	}
 	
 	/** Constructs an empty hashmap with the specified initial capacity
 	 *  and the default load factor (0.75). */
 	public SimpleHashMap(int capacity) {
-		table = (Entry<K,V>[]) new Entry[capacity];
+		table = createTable(capacity);
 	}
 	
 	@Override
@@ -60,6 +60,7 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 			old = e.getValue();
 			e.setValue(v);
 		}
+		rehashIfNeeded();
 		return old;
 	}
 
@@ -80,6 +81,7 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 				return v;
 			}
 		}
+		rehashIfNeeded();
 		return null;
 	}
 
@@ -107,7 +109,10 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 
 	
 	private int index(K key) {
-		return Math.abs(key.hashCode()) % table.length;
+		return index(key,table.length);
+	}
+	private int index(K key, int length){
+		return Math.abs(key.hashCode()) % length;
 	}
 	
 	private Entry<K,V> find(int index, K key) {
@@ -119,6 +124,27 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 			}
 		}
 		return null;
+	}
+	
+	private void rehashIfNeeded(){
+		if(size < MAX_LOAD_FACTOR*table.length){
+			return;
+		}
+		
+		int newLength = table.length*2;
+		Entry<K,V>[] newTable = createTable(table.length*2);
+		//index()
+		for(Entry<K,V> e: table){
+			if(e != null){
+				newTable[index(e.key,newLength)] = e;
+			}
+		}
+		table = newTable;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Entry<K,V>[] createTable(int size){
+		return (Entry<K,V>[]) new Entry[size];
 	}
 	
 	private static class Entry<K,V> implements Map.Entry<K,V> {
