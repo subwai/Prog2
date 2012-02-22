@@ -24,8 +24,8 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 	
 	@Override
 	public V get(Object arg0) {
-		// TODO Auto-generated method stub
-		return null;
+		K k = (K)arg0;
+		return find(index(k), k).value;
 	}
 
 	@Override
