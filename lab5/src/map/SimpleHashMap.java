@@ -49,7 +49,21 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 
 	@Override
 	public V remove(Object arg0) {
-		// TODO Auto-generated method stub
+		if (arg0 == null) {
+			throw new NullPointerException();
+		}
+		K k = (K)arg0;
+		int i = index(k);
+		LinkIterator itr = new LinkIterator(i);
+		while (itr.hasNext()) {
+			Entry<K,V> e = itr.next();
+			if (e.next != null && e.next.key == k) {
+				V v = e.next.value;
+				e.next = null;
+				size--;
+				return v;
+			}
+		}
 		return null;
 	}
 
