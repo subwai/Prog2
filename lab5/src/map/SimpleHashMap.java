@@ -83,9 +83,9 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 					size--;
 					return e.value;
 				}
+				prev = e;
 			}
 		}
-		//rehashIfNeeded();
 		return null;
 	}
 
