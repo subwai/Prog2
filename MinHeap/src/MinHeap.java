@@ -154,13 +154,6 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		percolateUp(node);
 	}
 	
-	private HeapEntry<E> getParent(HeapEntry<E> node){
-		if(node.pos == 0){
-			return null;
-		}
-		return getAt((node.pos - 1)/2);
-	}
-	
 	/** Internal auxiliary method to percolate item down the heap.
 		@param index the index at which the percolate starts.
 	*/
@@ -171,7 +164,8 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		HeapEntry<E> root = getAt(index);
 		percolateDown(root);
 	}
-	//recursive method
+	
+
 	private void percolateDown(HeapEntry<E> root){
 		if(root == null){
 			return;
@@ -184,6 +178,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 			percolateDown(root);
 		}
 	}
+	
 	private HeapEntry<E> findMinChild(HeapEntry<E> root){
 		HeapEntry<E> left = getAt(2*root.pos+1),
 					 right = getAt(2*root.pos+2);
@@ -197,6 +192,14 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		}
 		return left;
 	}
+	
+	private HeapEntry<E> getParent(HeapEntry<E> node){
+		if(node.pos == 0){
+			return null;
+		}
+		return getAt((node.pos - 1)/2);
+	}
+	
 	private void increaseCapacity() {
 		HeapEntry<E>[] temp = createHeapEntryVector(size*2);
 		for (int i = 0; i < heap.length; i++) {
