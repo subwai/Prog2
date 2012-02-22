@@ -51,7 +51,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 			return null;
 		}
 		HeapEntry<E> x = heap[0];
-		return x.obj;
+		return x.el;
 	}
 	
 	public E poll() {
@@ -59,7 +59,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 			return null;
 		}
 		HeapEntry<E> top = getAt(0);
-		E temp = top.obj;
+		E temp = top.el;
 		delete(top);
 		return temp;
 	}
@@ -92,8 +92,8 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 				is greater than the old value
 	*/
 	public void decreaseKey(HeapEntry<E> he, E newValue) {
-		if (compare(newValue, he.obj) < 0) {
-			he.obj = newValue;
+		if (compare(newValue, he.el) < 0) {
+			he.el = newValue;
 			percolateUp(he.pos);
 		} else {
 			throw new IllegalArgumentException();
@@ -107,8 +107,8 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 				is less than the old value
 	 */
 	public void increaseKey(HeapEntry<E> he, E newValue) {
-		if (compare(newValue, he.obj) > 0) {
-			he.obj = newValue;
+		if (compare(newValue, he.el) > 0) {
+			he.el = newValue;
 			percolateDown(he.pos);
 		} else {
 			throw new IllegalArgumentException();
@@ -125,7 +125,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		heap[size-1] = null;
 		size--;
 		HeapEntry<E> parent = getParent(prevLast);
-		if (parent == null || compare(prevLast.obj, parent.obj) >= 0) {
+		if (parent == null || compare(prevLast.el, parent.el) >= 0) {
 			percolateDown(prevLast.pos);
 		} else {
 			percolateUp(prevLast.pos);
@@ -147,7 +147,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 			return; //reached top
 		}
 		HeapEntry<E> parent = getParent(node);
-		if(parent == null || compare(parent.obj,node.obj) <= 0){
+		if(parent == null || compare(parent.el,node.el) <= 0){
 			return;
 		}
 		switchPos(parent,node);
@@ -173,7 +173,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		HeapEntry<E> minChild = findMinChild(root);
 		if(minChild == null){
 			return;
-		}else if(compare(minChild.obj, root.obj) < 0){
+		}else if(compare(minChild.el, root.el) < 0){
 			switchPos(root,minChild);
 			percolateDown(root);
 		}
@@ -184,7 +184,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 					 right = getAt(2*root.pos+2);
 		
 		if (right != null && left != null) {
-			if(compare(right.obj, left.obj) < 0) {
+			if(compare(right.el, left.el) < 0) {
 				return right;
 			} else {
 				return left;
@@ -228,24 +228,37 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	private HeapEntry<E>[] createHeapEntryVector(int size){
 		return (HeapEntry<E>[]) new HeapEntry[size];
 	}
-
+	
+	/**
+	 * The HeapEntry class represents entries in the MinHeap
+	 * It enables removal of specific elements in the MinHeap,
+	 * useful where duplicates are present
+	 * @param <E> the type used when creating the MinHeap
+	 */
 	public static class HeapEntry<E>{
 		private int pos;
-		private E obj;
+		private E el;
 		private HeapEntry(E obj, int pos){
-			this.obj = obj;
+			this.el = obj;
 			this.pos = pos;
 		}
-		public E getObj(){
-			return obj;
+		/**
+		 * @return the element associated with this heap entry 
+		 */
+		public E getEl(){
+			return el;
 		}
-		public int getPos(){
-			return pos;
-		}
+		
 		public String toString(){
-			return obj.toString() + " at pos " + pos;
+			return el.toString() + " at pos " + pos;
 		}
 	}
+	
+	/**
+	 * Returns an iterator over the elements in this MinHeap.
+	 * There are no guarantees concerning the order in which the elements are returned.
+	 * @returns an Iterator over the elements in this collection
+	 */
 	public Iterator<E> iterator() {
 		return new MinHeapIterator();
 	}
@@ -264,7 +277,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 			if(!hasNext()){
 				throw new NoSuchElementException();
 			}
-			return getAt(pos++).obj;
+			return getAt(pos++).el;
 		}
 
 		@Override
