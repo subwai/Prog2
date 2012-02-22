@@ -74,7 +74,11 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 	}
 	
 	private class LinkIterator implements Iterator<Entry>{
-
+		
+		public LinkIterator(int index){
+			
+		}
+		
 		@Override
 		public boolean hasNext() {
 			// TODO Auto-generated method stub
