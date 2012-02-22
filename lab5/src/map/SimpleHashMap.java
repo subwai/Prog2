@@ -51,19 +51,22 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 	}
 	
 	
-	/*
+
 	public String show(){
 		StringBuilder sb = new StringBuilder();
 		for(int i=0; i < table.length; i++){
 			sb.append(i);
 			sb.append("\t");
-			Entry<K,V> e = table[i];
-			if(e )
-			sb.append(table[i].toString());
+			LinkIterator itr = new LinkIterator(i);
+			while(itr.hasNext()){
+				Entry<K,V> e = itr.next();
+				sb.append(e.key.toString());
+			}
+			sb.append("\n");
 		}
 		return sb.toString();
 	}
-	*/
+
 	
 	private int index(K key) {
 		return 0;
