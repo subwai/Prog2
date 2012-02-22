@@ -31,7 +31,14 @@ public class TestMinHeap {
 		heap.offer(17);
 		heap.offer(4);
 		heap.offer(9);
+		assertTrue("peek should return 4",4 == heap.peek());
 		this.testPollInteger(new Integer[]{4,5,9,10,15,17});
+	}
+	@Test
+	public void testPeek(){
+		assertTrue("peek should return null when empty",heap.peek() == null);
+		heap.offer(1);
+		assertTrue("peek should return 1",heap.peek() == 1);
 	}
 	@Test
 	public void testInsert(){
@@ -185,5 +192,24 @@ public class TestMinHeap {
 		assertFalse("Parent should not be higher than child",parent > child);
 		recursive_check(heap_arr,2*i+1);
 		recursive_check(heap_arr,2*i+2);
+	}
+	
+	@Test
+	public void testInsertNull(){
+		try{
+			heap.offer(null);
+			fail("should throw NullPointerException");
+		}catch (NullPointerException ex){}
+	}
+	
+	@Test
+	public void testDoubleDeleteHeapEntry(){
+		MinHeap.HeapEntry<Integer> he = heap.insert(10);
+		heap.offer(20);
+		heap.delete(he);
+		heap.delete(he);
+		assertTrue("qwe",20 == heap.peek());
+		assertEquals("qwe",1,heap.size());
+		
 	}
 }

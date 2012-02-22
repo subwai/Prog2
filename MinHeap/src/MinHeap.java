@@ -10,29 +10,50 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	private int size;
 	private Comparator<E> cmp;
 	
+	/**
+	 * Creates a MinHeap with the default initial capacity (11) 
+	 * that orders its elements according to their natural ordering (using Comparable).
+	 */
 	public MinHeap() {
 		heap = new Object[INITIAL_CAPACITY];
 		size = 0;
 		cmp = null;
 	}
-	public MinHeap(Comparator<E> cmp) {
+	
+	/**
+	 * Creates a MinHeap with the default initial capacity (11) 
+	 * that orders its elements according to the provided comparator
+	 * @param comparator the comparator that will be used to order this MinHeap
+	 */
+	public MinHeap(Comparator<E> comparator) {
 		this();
-		this.cmp = cmp;
+		this.cmp = comparator;
 	}
+	
+	/**
+	 * Returns the number of elements currently in the MinHeap
+	 */
 	public int size() {
 		return size;
 	}
-	public boolean isEmpty() {
-		return size == 0;
-	}
+	
+	/*
+	 * Public methods below are already documented by the interface Queue
+	 */
+	
 	public boolean offer(E x) {
 		insert(x);
 		return true;
 	}
+	
 	public E peek() {
+		if(isEmpty()){
+			return null;
+		}
 		HeapEntry<E> x = extract(heap[0]);
 		return x.obj;
 	}
+	
 	public E poll() {
 		if(isEmpty()){
 			return null;
@@ -96,6 +117,11 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	
 	/** Deletes the specified HeapEntry object from this heap. */
 	public void delete(HeapEntry<E> e) {
+		//make sure the heap entry object exists
+		//for(HeapEntry<E> he: heap){
+		//	
+		//}
+		
 		e.obj = getAt(size-1).obj;
 		heap[size-1] = null;
 		size--;
