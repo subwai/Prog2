@@ -6,12 +6,12 @@ import java.util.Queue;
 
 public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	public static final int INITIAL_CAPACITY = 20;
-	private Object[] heap;
+	private HeapEntry<E>[] heap;
 	private int size;
 	private Comparator<E> cmp;
 	
 	public MinHeap() {
-		heap = new Object[INITIAL_CAPACITY];
+		heap = (HeapEntry<E>[]) new HeapEntry[INITIAL_CAPACITY];
 		size = 0;
 		cmp = null;
 	}
@@ -30,7 +30,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		return true;
 	}
 	public E peek() {
-		HeapEntry<E> x = extract(heap[0]);
+		HeapEntry<E> x = heap[0];
 		return x.obj;
 	}
 	public E poll() {
@@ -71,7 +71,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 				is greater than the old value
 	*/
 	public void decreaseKey(HeapEntry<E> e, E newValue) {
-		if (compareTo(newValue, e.obj) < 0) {
+		if (compare(newValue, e.obj) < 0) {
 			e.obj = newValue;
 			percolateUp(e.pos);
 		} else {
@@ -86,7 +86,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 				is less than the old value
 	 */
 	public void increaseKey(HeapEntry<E> e, E newValue) {
-		if (compareTo(newValue, e.obj) > 0) {
+		if (compare(newValue, e.obj) > 0) {
 			e.obj = newValue;
 			percolateDown(e.pos);
 		} else {
@@ -100,7 +100,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		heap[size-1] = null;
 		size--;
 		HeapEntry<E> parent = getParent(e);
-		if (parent == null || compareTo(e.obj, parent.obj) >= 0) {
+		if (parent == null || compare(e.obj, parent.obj) >= 0) {
 			percolateDown(e.pos);
 		} else {
 			percolateUp(e.pos);
@@ -122,7 +122,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 			return; //reached top
 		}
 		HeapEntry<E> parent = getParent(node);
-		if(parent == null || compareTo(parent.obj,node.obj) <= 0){
+		if(parent == null || compare(parent.obj,node.obj) <= 0){
 			return;
 		}
 		switchPos(parent,node);
@@ -154,7 +154,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		HeapEntry<E> minChild = findMinChild(root);
 		if(minChild == null){
 			return;
-		}else if(compareTo(minChild.obj, root.obj) < 0){
+		}else if(compare(minChild.obj, root.obj) < 0){
 			switchPos(root,minChild);
 			percolateDown(root);
 		}
@@ -164,7 +164,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 					 right = getAt(2*root.pos+2);
 		
 		if (right != null && left != null) {
-			if(compareTo(right.obj, left.obj) < 0) {
+			if(compare(right.obj, left.obj) < 0) {
 				return right;
 			} else {
 				return left;
@@ -173,7 +173,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		return left;
 	}
 	private void increaseCapacity() {
-		Object[] temp = new Object[size()*2];
+		HeapEntry<E>[] temp = (HeapEntry<E>[]) new HeapEntry[size()*2];
 		for (int i = 0; i < heap.length; i++) {
 			temp[i] = heap[i];
 		}
@@ -235,25 +235,16 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		if(index >= (size())){
 			return null;
 		}
-		return extract(heap[index]);
+		return heap[index];
 	}
 	
 	@SuppressWarnings("unchecked")
-	private int compareTo(E e, E other){
+	private int compare(E e, E other){
 		if(cmp == null){
 			Comparable<E> ce = (Comparable<E>)e;
 			return ce.compareTo(other);
 		} else {
 			return cmp.compare(e, other);
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	private HeapEntry<E> extract(Object o) {
-		if(o instanceof HeapEntry<?>){
-			return ((HeapEntry<E>)o);
-		}else{
-			throw new RuntimeException();
 		}
 	}
 }
