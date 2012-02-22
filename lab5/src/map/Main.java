@@ -1,21 +1,18 @@
 package map;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+
 public class Main {
 	
 	public static void main(String[] args) {
-		SimpleHashMap<Integer, Integer> map = new SimpleHashMap<Integer, Integer>();
-		map.put(1, 5);
-		map.put(7, 2);
-		map.put(-15, 3);
-		map.put(3, 14);
-		map.put(10, 10);
-		map.put(8, 9);
-		map.put(-13, 3);
-		map.put(0, 12);
-		map.put(-5, 13);
-		map.put(11, 16);
-		map.put(150,0);
-		map.put(16, 7);
-		//System.out.println(map.show());
+		SimpleHashMap<Integer, String> map = new SimpleHashMap<Integer, String>();
+		
+		java.util.Random random = new java.util.Random(123456);
+		for (int i = 0; i < 24; i++) {
+			int r = random.nextInt(10000);			
+			map.put(r, "");
+		}
 	}
 }

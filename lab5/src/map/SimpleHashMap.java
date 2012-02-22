@@ -42,7 +42,7 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 	}
 
 	@Override
-	public V put(K k, V v) {
+	public V put(K k, V v) { //TODO: FIX!
 		if(k == null){
 			throw new NullPointerException();
 		}
@@ -51,16 +51,13 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 		V old = null;
 		if(e == null){
 			e = new Entry<K,V>(k,v);
-			if(table[i] != null){
-				e.next = table[i];
-			}
-			table[i] = e;
+			insert(e,i,table);
 			size++;
+			rehashIfNeeded();
 		}else{
 			old = e.getValue();
 			e.setValue(v);
 		}
-		rehashIfNeeded();
 		return old;
 	}
 
@@ -88,7 +85,7 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 				}
 			}
 		}
-		rehashIfNeeded();
+		//rehashIfNeeded();
 		return null;
 	}
 
@@ -126,7 +123,7 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 		LinkIterator itr = new LinkIterator(index);
 		while(itr.hasNext()) {
 			Entry<K,V> e = itr.next();
-			if (e.key == key) {
+			if (e.key.equals(key)) {
 				return e;
 			}
 		}
@@ -134,18 +131,30 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 	}
 	
 	private void rehashIfNeeded(){
-		if(size < MAX_LOAD_FACTOR*table.length){
+		if(size < MAX_LOAD_FACTOR*table.length){//TODO! make smaller?
 			return;
 		}
 		
 		int newLength = table.length*2;
-		Entry<K,V>[] newTable = createTable(table.length*2);
-		for(Entry<K,V> e: table){
-			if(e != null){
-				newTable[index(e.key,newLength)] = e;
+		Entry<K,V>[] newTable = createTable(newLength);
+		int check_size = 0;
+		for(int i=0; i< table.length; i++){
+			LinkIterator itr = new LinkIterator(i);
+			while(itr.hasNext()){
+				Entry<K,V> e = itr.next();
+				e.next = null;
+				insert(e,index(e.key,newLength),newTable);
+				check_size++;
 			}
-
+		}
 		table = newTable;
+	}
+	
+	private void insert(Entry<K,V> e, int i, Entry<K,V>[] table){
+		if(table[i] != null){
+			e.next = table[i];
+		}
+		table[i] = e;
 	}
 	
 	@SuppressWarnings("unchecked")
