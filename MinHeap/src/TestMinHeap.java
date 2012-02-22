@@ -38,17 +38,18 @@ public class TestMinHeap {
 		heap.insert(10);
 		this.testPollInteger(new Integer[]{10});
 	}
+	
 	@Test
 	public void testDelete(){
 		heap.insert(10);
 		heap.insert(5);
-		MinHeap.HeapEntry<Integer> he = heap.insert(15);
+		heap.insert(15);
 		heap.insert(20);
-		heap.insert(9);
+		MinHeap.HeapEntry<Integer> he = heap.insert(9);
 		heap.insert(18);
 		heap.insert(8);
 		heap.delete(he);
-		testPollInteger(new Integer[]{5,8,9,10,18,20});
+		testPollInteger(new Integer[]{5,8,10,15,18,20});
 	}
 	
 	@Test
@@ -186,4 +187,6 @@ public class TestMinHeap {
 		recursive_check(heap_arr,2*i+1);
 		recursive_check(heap_arr,2*i+2);
 	}
+	
+	
 }
