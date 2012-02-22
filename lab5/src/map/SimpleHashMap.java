@@ -34,8 +34,8 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 	}
 
 	@Override
-	public V put(K arg0, V arg1) {
-		// TODO Auto-generated method stub
+	public V put(K k, V v) {
+		Entry<K,V> e = find(index(k),k);
 		return null;
 	}
 
