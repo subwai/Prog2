@@ -75,10 +75,10 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		if(cmp == null && !(x instanceof Comparable)){
 			throw new ClassCastException();
 		}
-		if (heap.length == size()) {
+		if (heap.length == size) {
 			increaseCapacity();
 		}
-		HeapEntry<E> el = new HeapEntry<E>(x, size());
+		HeapEntry<E> el = new HeapEntry<E>(x, size);
 		heap[size++] = el;
 		percolateUp(el);
 		return el;
@@ -116,20 +116,19 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	}
 	
 	/** Deletes the specified HeapEntry object from this heap. */
-	public void delete(HeapEntry<E> e) {
-		//make sure the heap entry object exists
-		//for(HeapEntry<E> he: heap){
-		//	
-		//}
-		
-		e.obj = getAt(size-1).obj;
+	public void delete(HeapEntry<E> he) {
+		if(!contains(he)){
+			return;
+		}
+		HeapEntry<E> prevLast = getAt(size-1);
+		switchPos(he, prevLast);
 		heap[size-1] = null;
 		size--;
-		HeapEntry<E> parent = getParent(e);
-		if (parent == null || compare(e.obj, parent.obj) >= 0) {
-			percolateDown(e.pos);
+		HeapEntry<E> parent = getParent(prevLast);
+		if (parent == null || compare(prevLast.obj, parent.obj) >= 0) {
+			percolateDown(prevLast.pos);
 		} else {
-			percolateUp(e.pos);
+			percolateUp(prevLast.pos);
 		}
 	}
 	
@@ -137,7 +136,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		@param index the index at which the percolate starts
 	*/
 	private void percolateUp(int index){
-		if(index > (size()-1)){
+		if(index > (size-1)){
 			return; //index out of bounds, silent
 		}
 		percolateUp(getAt(index));
@@ -166,7 +165,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		@param index the index at which the percolate starts.
 	*/
 	private void percolateDown(int index){
-		if(index >= (size())){
+		if(index >= size){
 			return; //index out of bounds, silent
 		}
 		HeapEntry<E> root = getAt(index);
@@ -199,7 +198,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		return left;
 	}
 	private void increaseCapacity() {
-		HeapEntry<E>[] temp = (HeapEntry<E>[]) new HeapEntry[size()*2];
+		HeapEntry<E>[] temp = (HeapEntry<E>[]) new HeapEntry[size*2];
 		for (int i = 0; i < heap.length; i++) {
 			temp[i] = heap[i];
 		}
@@ -211,6 +210,15 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		e2.pos = tempPos;
 		heap[e1.pos] = e1;
 		heap[e2.pos] = e2;
+	}
+	
+	private boolean contains(HeapEntry<E> he){
+		for(int i = 0; i < size; i++){
+			if(heap[i].equals(he)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static class HeapEntry<E>{
@@ -240,7 +248,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		}
 		@Override
 		public boolean hasNext() {
-			return size() > pos;
+			return size > pos;
 		}
 
 		@Override
@@ -258,7 +266,7 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 	}
 	
 	private HeapEntry<E> getAt(int index) {
-		if(index >= (size())){
+		if(index >= size){
 			return null;
 		}
 		return heap[index];
