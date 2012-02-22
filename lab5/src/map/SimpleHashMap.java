@@ -93,20 +93,19 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 		
 		@Override
 		public K getKey() {
-			// TODO Auto-generated method stub
-			return null;
+			return key;
 		}
 
 		@Override
 		public V getValue() {
-			// TODO Auto-generated method stub
-			return null;
+			return value;
 		}
 
 		@Override
 		public V setValue(V value) {
-			// TODO Auto-generated method stub
-			return null;
+			V old = this.value;
+			this.value = value;
+			return old;
 		}
 		
 		public String toString() {
@@ -124,19 +123,22 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 		
 		@Override
 		public boolean hasNext() {
-			// TODO Auto-generated method stub
-			return false;
+			return next != null;
 		}
 
 		@Override
 		public Entry<K,V> next() {
-			// TODO Auto-generated method stub
+			if(!hasNext()){
+				return null;
+			}
+			Entry<K,V> next = this.next;
+			this.next = this.next.next;
 			return next;
 		}
 
 		@Override
 		public void remove() {
-			// TODO Auto-generated method stub
+			throw new UnsupportedOperationException();
 			
 		}
 	}
