@@ -80,31 +80,6 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 		return null;
 	}
 	
-	private class LinkIterator implements Iterator<Entry>{
-		
-		public LinkIterator(int index){
-			
-		}
-		
-		@Override
-		public boolean hasNext() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-
-		@Override
-		public Entry next() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public void remove() {
-			// TODO Auto-generated method stub
-			
-		}
-	}
-	
 	private static class Entry<K,V> implements Map.Entry<K,V> {
 		
 		private K key;
@@ -138,6 +113,32 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 			return key.toString() + "=" + value.toString();
 		}
 		
+	}
+	
+	private class LinkIterator implements Iterator<Entry<K,V>>{
+		private Entry<K,V> next;
+		
+		public LinkIterator(int index){
+			next = table[index];
+		}
+		
+		@Override
+		public boolean hasNext() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public Entry<K,V> next() {
+			// TODO Auto-generated method stub
+			return next;
+		}
+
+		@Override
+		public void remove() {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 
 }
