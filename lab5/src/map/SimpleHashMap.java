@@ -24,8 +24,16 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 	
 	@Override
 	public V get(Object arg0) {
+		if(arg0 == null){
+			throw new NullPointerException();
+		}
 		K k = (K)arg0;
-		return find(index(k), k).value;
+		Entry<K,V> e = find(index(k),k);
+		if(e == null){
+			return null;
+		}else {
+			return e.value;
+		}
 	}
 
 	@Override
@@ -35,11 +43,14 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 
 	@Override
 	public V put(K k, V v) {
+		if(k == null){
+			throw new NullPointerException();
+		}
 		int i = index(k);
 		Entry<K,V> e = find(i,k);
 		V old = null;
 		if(e == null){
-			e = new Entry(k,v);
+			e = new Entry<K,V>(k,v);
 			if(table[i] == null){
 				table[i] = e;
 			}
@@ -51,6 +62,7 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 				}
 				last.next = e;
 			}
+			size++;
 		}else{
 			old = e.getValue();
 			e.setValue(v);
