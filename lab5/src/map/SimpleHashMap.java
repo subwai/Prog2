@@ -70,7 +70,7 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 	}
 	
 	private Entry<K,V> find(int index, K key) {
-		Iterator itr = new LinkIterator(index);
+		LinkIterator itr = new LinkIterator(index);
 		while(itr.hasNext()) {
 			Entry<K,V> e = itr.next();
 			if (e.key == key) {
