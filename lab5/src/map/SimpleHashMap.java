@@ -137,14 +137,12 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 		
 		int newLength = table.length*2;
 		Entry<K,V>[] newTable = createTable(newLength);
-		int check_size = 0;
 		for(int i=0; i< table.length; i++){
 			LinkIterator itr = new LinkIterator(i);
 			while(itr.hasNext()){
 				Entry<K,V> e = itr.next();
 				e.next = null;
 				insert(e,index(e.key,newLength),newTable);
-				check_size++;
 			}
 		}
 		table = newTable;
