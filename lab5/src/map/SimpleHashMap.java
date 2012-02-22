@@ -5,11 +5,13 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 	public static final int INITIAL_CAPACITY = 16;
 	public static final double INITIAL_LOAD_FACTOR = 0.75;
 	private Entry<K,V>[] table;
+	private int size;
 	
 	/** Constructs an empty hashmap with the default initial capacity (16)
 	 *  and the default load factor (0.75). */
 	public SimpleHashMap() {
 		table = (Entry<K,V>[]) new Entry[INITIAL_CAPACITY];
+		size = 0;
 	}
 	
 	/** Constructs an empty hashmap with the specified initial capacity
@@ -26,8 +28,7 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return size == 0;
 	}
 
 	@Override
@@ -44,8 +45,7 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 	
 	private static class Entry<K,V> implements Map.Entry<K,V> {
