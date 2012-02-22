@@ -166,24 +166,19 @@ public class MinHeap<E> extends AbstractQueue<E> implements Queue<E> {
 		if (right != null && left != null) {
 			if(compareTo(right.obj, left.obj) < 0) {
 				return right;
-			}else{
+			} else {
+				return left;
+			}
+		} else if (left != null) {
+			if (compareTo(left.obj, root.obj) < 0) {
 				return left;
 			}
 		} else if (right != null) {
 			if (compareTo(right.obj, root.obj) < 0) {
 				return right;
-			} else {
-				return null;
 			}
-		} else if (left != null) {
-			if (compareTo(left.obj, root.obj) < 0) {
-				return left;
-			} else {
-				return null;
-			}
-		} else {
-			return null;
 		}
+		return null;
 	}
 	private void increaseCapacity() {
 		Object[] temp = new Object[size()*2];
