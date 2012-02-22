@@ -3,10 +3,19 @@ package map;
 public class SimpleHashMap<K,V> implements Map<K,V> {
 	
 	public static final int INITIAL_CAPACITY = 16;
+	public static final double INITIAL_LOAD_FACTOR = 0.75;
 	private Entry<K,V>[] table;
 	
+	/** Constructs an empty hashmap with the default initial capacity (16)
+	 *  and the default load factor (0.75). */
 	public SimpleHashMap() {
 		table = (Entry<K,V>[]) new Entry[INITIAL_CAPACITY];
+	}
+	
+	/** Constructs an empty hashmap with the specified initial capacity
+	 *  and the default load factor (0.75). */
+	public SimpleHashMap(int capacity) {
+		table = (Entry<K,V>[]) new Entry[capacity];
 	}
 	
 	@Override
