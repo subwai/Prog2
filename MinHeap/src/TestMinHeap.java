@@ -45,6 +45,13 @@ public class TestMinHeap {
 		heap.insert(10);
 		this.testPollInteger(new Integer[]{10});
 	}
+	@Test
+	public void testInsertNull(){
+		try{
+			heap.offer(null);
+			fail("should throw NullPointerException");
+		}catch (NullPointerException ex){}
+	}
 	
 	@Test
 	public void testDelete(){
@@ -57,6 +64,18 @@ public class TestMinHeap {
 		heap.insert(8);
 		heap.delete(he);
 		testPollInteger(new Integer[]{5,8,10,15,18,20});
+	}
+	@Test
+	public void testDoubleDeleteHeapEntry(){
+		MinHeap.HeapEntry<Integer> he = heap.insert(10);
+		heap.offer(20);
+		heap.offer(50);
+		heap.offer(50);
+		heap.offer(50);
+		heap.offer(50);
+		heap.delete(he);
+		heap.delete(he);
+		testPollInteger(new Integer[]{20,50,50,50,50});	
 	}
 	
 	@Test
@@ -193,24 +212,5 @@ public class TestMinHeap {
 		assertFalse("Parent should not be higher than child",parent > child);
 		recursive_check(heap_arr,2*i+1);
 		recursive_check(heap_arr,2*i+2);
-	}
-	
-	@Test
-	public void testInsertNull(){
-		try{
-			heap.offer(null);
-			fail("should throw NullPointerException");
-		}catch (NullPointerException ex){}
-	}
-	
-	@Test
-	public void testDoubleDeleteHeapEntry(){
-		MinHeap.HeapEntry<Integer> he = heap.insert(10);
-		heap.offer(20);
-		heap.delete(he);
-		heap.delete(he);
-		assertTrue("qwe",20 == heap.peek());
-		assertEquals("qwe",1,heap.size());
-		
 	}
 }
