@@ -34,9 +34,17 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 	}
 
 	@Override
-	public V put(K arg0, V arg1) {
-		// TODO Auto-generated method stub
-		return null;
+	public V put(K k, V v) {
+		int index = index(k);
+		Entry<K,V> e = find(index,k);
+		V old = null;
+		if(e == null){
+			//TODO: implement...
+		}else{
+			old = e.getValue();
+			e.setValue(v);
+		}
+		return old;
 	}
 
 	@Override
