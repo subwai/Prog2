@@ -1,6 +1,7 @@
 package phonebook;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class FindNumberMenu extends JMenuItem implements ActionListener {
@@ -15,6 +16,11 @@ public class FindNumberMenu extends JMenuItem implements ActionListener {
 	}
 	
 	 public void actionPerformed(ActionEvent e) {
+		String s = JOptionPane.showInputDialog("Enter number");
+		if(s == null || s.isEmpty()){
+			return;
+		}
+		List<String> names = phoneBook.findNames(s);
 		
 	 }
 }

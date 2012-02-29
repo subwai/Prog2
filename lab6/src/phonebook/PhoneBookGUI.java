@@ -46,4 +46,8 @@ public class PhoneBookGUI extends JFrame {
 		pack();
 		setVisible(true);
 	}
+	
+	public void setText(String s){
+		messageArea.append(s + "\n-----------\n");
+	}
 }
