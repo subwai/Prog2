@@ -21,6 +21,10 @@ public class FindNumberMenu extends JMenuItem implements ActionListener {
 			return;
 		}
 		List<String> names = phoneBook.findNames(s);
-		
+		StringBuilder sb = new StringBuilder("Names for number " + s + ":\n");
+		for(String name: names){
+			sb.append(name + "\n");
+		}
+		gui.setText(sb.toString());
 	 }
 }
