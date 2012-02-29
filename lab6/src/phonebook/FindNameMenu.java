@@ -17,13 +17,14 @@ public class FindNameMenu extends JMenuItem implements ActionListener {
 	
 	 public void actionPerformed(ActionEvent e) {
 		String s = JOptionPane.showInputDialog("Enter name");
-		if (s != null || s.isEmpty()) {
-			List<String> numbers = phoneBook.findNumber(s);
-			StringBuilder sb = new StringBuilder("Numbers for name " + s + ":\n");
-			for (String number : numbers) {
-				sb.append(number + "\n");
-			}
-			gui.setText(sb.toString());
+		if (s == null || s.isEmpty()) {
+			return;
 		}
+		List<String> numbers = phoneBook.findNumber(s);
+		StringBuilder sb = new StringBuilder("Numbers for name " + s + ":\n");
+		for (String number : numbers) {
+			sb.append(number + "\n");
+		}
+		gui.setText(sb.toString());
 	 }
 }
