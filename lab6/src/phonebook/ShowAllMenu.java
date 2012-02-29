@@ -1,6 +1,7 @@
 package phonebook;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Set;
 
 @SuppressWarnings("serial")
 public class ShowAllMenu extends JMenuItem implements ActionListener {
@@ -15,6 +16,14 @@ public class ShowAllMenu extends JMenuItem implements ActionListener {
 	}
 	
 	 public void actionPerformed(ActionEvent e) {
-		
+		 StringBuilder sb = new StringBuilder("All:\n");
+		 for(String name : phoneBook.names()){
+			 sb.append(name + ":\n");
+			 for(String number: phoneBook.findNumber(name)){
+				 sb.append("\t" + number);
+			 }
+			 sb.append("\n");
+		 }
+		 gui.setText(sb.toString());
 	 }
 }
