@@ -20,10 +20,20 @@ public class PhoneBookGUI extends JFrame {
 		setLayout(new BorderLayout());
 		JMenuBar menubar = new JMenuBar();
 		setJMenuBar(menubar);
+		
 		JMenu editMenu = new JMenu("Edit");
 		menubar.add(editMenu);
 		editMenu.add(new AddMenu(phoneBook,this));
 		editMenu.add(new RemoveMenu(phoneBook,this));
+		
+		JMenu findMenu = new JMenu("Find");
+		menubar.add(findMenu);
+		findMenu.add(new FindNumberMenu());
+		findMenu.add(new FindNameMenu());
+		
+		JMenu viewMenu = new JMenu("View");
+		menubar.add(viewMenu);
+		viewMenu.add(new ShowAllMenu());
 			
 		
 		JPanel southPanel = new JPanel();

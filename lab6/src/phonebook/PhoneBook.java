@@ -2,9 +2,10 @@ package phonebook;
 import java.util.*;
 
 public class PhoneBook {
-	private Map<String,LinkedList<String>> phoneBook;
+	private Map<String,HashSet<String>> pb;
 	
 	public PhoneBook() {
+		pb = new HashMap<String,HashSet<String>>();
 		
 	}
 	
@@ -20,7 +21,12 @@ public class PhoneBook {
 	 * @param number The number associated with the specified name
 	 */
 	public void put(String name, String number) {
-		
+		HashSet<String> numbers = pb.get(name);
+		if(numbers == null){
+			numbers = new HashSet<String>();
+			pb.put(name,numbers);
+		}
+		numbers.add(number);
 	}
 	
 	
@@ -33,7 +39,7 @@ public class PhoneBook {
 	 * @return true if the specified name was present.
 	 */
 	public boolean remove(String name) {
-		return false;
+		return pb.remove(name) != null;
 	}
 	
 	/**
@@ -44,7 +50,14 @@ public class PhoneBook {
 	 * @return The phone numbers associated with the specified name
 	 */
 	public List<String> findNumber(String name) {
-		return null;
+		List<String> list = new LinkedList<String>();
+		HashSet<String> numbers = pb.get(name);
+		if(numbers != null){
+			for(String number: numbers){
+				list.add(number);
+			}
+		}
+		return list;
 	}
 	
 	/**
@@ -56,7 +69,13 @@ public class PhoneBook {
 	 * @return The list of names associated with the specified number.
 	 */
 	public List<String> findNames(String number) {
-		return null;
+		List<String> names = new LinkedList<String>();
+		for(Map.Entry<String,HashSet<String>> pair : pb.entrySet()){
+			if(pair.getValue().contains(number)){
+				names.add(pair.getKey());
+			}
+		}
+		return names;
 	}
 	
 	/**
@@ -65,7 +84,7 @@ public class PhoneBook {
 	 * @return The set of all names present in this phone book
 	 */
 	public Set<String> names() {
-		return null;
+		return pb.keySet();
 	}
 	
 	/**
@@ -73,7 +92,7 @@ public class PhoneBook {
 	 * @return true if this phone book is empty
 	 */	
 	public boolean isEmpty() {
-		return true;
+		return pb.isEmpty();
 	}
 	
 	/**
@@ -81,7 +100,7 @@ public class PhoneBook {
 	 * @return The number of names in this phone book
 	 */
 	public int size() {
-		return 0;
+		return pb.size();
 	}
 
 }
