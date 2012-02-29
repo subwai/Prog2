@@ -42,7 +42,7 @@ public class SimpleHashMap<K,V> implements Map<K,V> {
 	}
 
 	@Override
-	public V put(K k, V v) { //TODO: FIX!
+	public V put(K k, V v) {
 		if(k == null){
 			throw new NullPointerException();
 		}
