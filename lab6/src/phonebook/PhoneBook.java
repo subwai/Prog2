@@ -1,13 +1,17 @@
 package phonebook;
-import java.io.Serializable;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.*;
 
-public class PhoneBook implements Serializable {
+public class PhoneBook {
 	private Map<String,HashSet<String>> pb;
+	private String saveFile;
 	
-	public PhoneBook() {
-		pb = new HashMap<String,HashSet<String>>();
-		
+	public PhoneBook(String file) {
+		this.saveFile = file + ".bin";
+		pb = this.newHashMap();
 	}
 	
 	
@@ -104,4 +108,25 @@ public class PhoneBook implements Serializable {
 		return pb.size();
 	}
 
+	private HashMap<String,HashSet<String>> newHashMap() {
+		try { 
+			ObjectInputStream in =
+				new ObjectInputStream(new FileInputStream(saveFile));
+			return (HashMap<String,HashSet<String>>) in.readObject();
+		} catch (Exception ex) {
+			return new HashMap<String,HashSet<String>>();
+		}
+	}
+	
+	public boolean persist() {
+		try {
+			 ObjectOutputStream out =
+				 new ObjectOutputStream(new FileOutputStream(saveFile));
+			 out.writeObject(pb);
+			 return true;
+		 } catch (Exception ex) {
+			 ex.printStackTrace();
+			 return false;
+		 }
+	}
 }

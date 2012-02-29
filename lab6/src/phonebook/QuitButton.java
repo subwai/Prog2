@@ -17,14 +17,10 @@ public class QuitButton extends JButton implements ActionListener {
 	}
 	
 	 public void actionPerformed(ActionEvent e) {
-		 try {
-			 ObjectOutputStream out =
-				 new ObjectOutputStream(new FileOutputStream("save.bin"));
-			 out.writeObject(phoneBook);
-		 } catch (Exception ex) {
-			 ex.printStackTrace();
+		 if (phoneBook.persist()) {
+			 System.exit(0);
+		 } else {
 			 System.exit(1);
 		 }
-		System.exit(0);
 	 }
 }
