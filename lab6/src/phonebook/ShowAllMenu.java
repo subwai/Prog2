@@ -20,7 +20,7 @@ public class ShowAllMenu extends JMenuItem implements ActionListener {
 		 for(String name : phoneBook.names()){
 			 sb.append(name + ":\n");
 			 for(String number: phoneBook.findNumber(name)){
-				 sb.append("\t" + number);
+				 sb.append("\t" + number + "\n");
 			 }
 			 sb.append("\n");
 		 }
