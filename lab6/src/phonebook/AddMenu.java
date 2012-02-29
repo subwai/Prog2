@@ -1,5 +1,6 @@
 package phonebook;
 import javax.swing.*;
+
 import java.awt.event.*;
 
 @SuppressWarnings("serial")
@@ -15,6 +16,15 @@ public class AddMenu extends JMenuItem implements ActionListener {
 	}
 	
 	 public void actionPerformed(ActionEvent e) {
-		
+		 String name = JOptionPane.showInputDialog("Enter name");
+		 if(name == null || name.isEmpty()){
+			 return;
+		 }
+		 
+		 String number = JOptionPane.showInputDialog("Enter number");
+		 if(number == null || number.isEmpty()){
+			 return;
+		 }
+		 phoneBook.put(name, number);
 	 }
 }
