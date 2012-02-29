@@ -1,7 +1,8 @@
 package phonebook;
+import java.io.Serializable;
 import java.util.*;
 
-public class PhoneBook {
+public class PhoneBook implements Serializable {
 	private Map<String,HashSet<String>> pb;
 	
 	public PhoneBook() {
