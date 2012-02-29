@@ -17,7 +17,7 @@ public class FindNumberMenu extends JMenuItem implements ActionListener {
 	
 	 public void actionPerformed(ActionEvent e) {
 		String s = JOptionPane.showInputDialog("Enter number");
-		if(s == null || s.isEmpty()){
+		if(s == null || !s.isEmpty()){
 			return;
 		}
 		List<String> names = phoneBook.findNames(s);
